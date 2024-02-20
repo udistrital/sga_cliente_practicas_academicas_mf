@@ -1,0 +1,84 @@
+<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+<div class="pt-5 max-w-[1200px] min-w-[720px]">
+  <mat-card *ngIf="!loading">
+    <mat-card-header>
+      <h1 class="m-auto text-lg font-bold">
+        {{ "practicas_academicas.titulo" | translate }}
+      </h1>
+    </mat-card-header>
+
+    <mat-card-content class="p-6">
+      <ngx-solicitante-practica
+        (loading)="changeLoading($event)"
+        (docentes)="loadDocentes($event)"
+        [docentesSolicitud]="[]"
+        [process]="true"
+      >
+      </ngx-solicitante-practica>
+
+      <ngx-dinamicform
+        [normalform]="FormPracticasAcademicas"
+        [modeloData]="InfoPracticasAcademicas"
+        (result)="enviarSolicitud($event)"
+        [clean]="limpiar"
+        (interlaced)="getSeleccion($event)"
+      >
+      </ngx-dinamicform>
+
+      <ngx-dinamicform
+        [normalform]="FormSoporteDocumentales"
+        [modeloData]="InfoDocumentos"
+        [clean]="limpiar"
+        (result)="enviarSolicitud($event)"
+        *ngIf="llenarDocumentos"
+      >
+      </ngx-dinamicform>
+      <div class="row col-12" *ngIf="['news', 'process'].includes(process)">
+        <div class="row col-6">
+          <div class="col-6">
+            <label>{{
+              "practicas_academicas.fecha_radicacion" | translate
+            }}</label>
+          </div>
+          <div class="col-6">
+            <span class="form-control"> {{ fechaRadicado }} </span>
+          </div>
+        </div>
+        <div class="row col-6">
+          <div class="col-6">
+            <label>{{
+              "practicas_academicas.estado_actual" | translate
+            }}</label>
+          </div>
+          <div class="col-6">
+            <span class="form-control"> {{ estado }} </span>
+          </div>
+        </div>
+      </div>
+      <br />
+      <mat-accordion *ngIf="['news', 'process'].includes(process)">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ "practicas_academicas.estados" | translate }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ "practicas_academicas.ver_listado_estados" | translate }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions class="flex justify-center">
+        <button
+          class="bg-primary-900 p-2 rounded text-white hover:bg-primary"
+          type="button"
+          (click)="goback()"
+        >
+          {{ "GLOBAL.regresar" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card-footer>
+  </mat-card>
+</div>
