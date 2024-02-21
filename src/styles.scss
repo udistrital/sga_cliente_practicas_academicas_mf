@@ -54,4 +54,6 @@ $my-theme: mat.define-light-theme(
 
 @include mat.all-component-themes($my-theme);
 
-
+app-list-practicas-academicas{
+  width: 100%;
+}

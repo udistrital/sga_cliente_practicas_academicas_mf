@@ -13,8 +13,7 @@ import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-list-practicas-academicas',
-  templateUrl: './list-practicas-academicas.component.html',
-  styleUrls: ['./list-practicas-academicas.component.scss']
+  templateUrl: './list-practicas-academicas.component.html'
 })
 export class ListPracticasAcademicasComponent {
 
@@ -81,6 +80,13 @@ export class ListPracticasAcademicasComponent {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.crearTabla();
     });
+  }
+
+  applyFilter(event: Event) {
+    let filterValue = (event.target as HTMLInputElement).value;
+    // filterValue = filterValue.trim(); // Remove whitespace
+    // filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   filterPracticas(event: any) {
@@ -175,6 +181,7 @@ export class ListPracticasAcademicasComponent {
     this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
       const { process } = params.params;
       this.process = atob(process);
+      console.log("OPERACION   " + this.process);
       this.processEncript = process;
 
       this.autenticationService.getRole().then((rol: Array<String>) => {
