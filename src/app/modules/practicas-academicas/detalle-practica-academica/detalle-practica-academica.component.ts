@@ -372,7 +372,7 @@ export class DetallePracticaAcademicaComponent {
 
   enviarInvitacion() {
     this.loading = true;
-
+    console.log(this.InfoPracticasAcademicas)
     this.sgamidService
       .post(
         "practicas_academicas/enviar_invitacion/",
@@ -394,7 +394,6 @@ export class DetallePracticaAcademicaComponent {
                   panelClass: ["success-snackbar"],
                 }
               );
-              // this.popUpManager.showSuccessAlert(this.translate.instant('practicas_academicas.invitaciones_enviadas'));
             }
           } else {
             this.loading = false;
@@ -408,7 +407,6 @@ export class DetallePracticaAcademicaComponent {
                 panelClass: ["error-snackbar"],
               }
             );
-            // this.popUpManager.showErrorAlert(this.translate.instant('practicas_academicas.invitaciones_no_enviadas'));
           }
         },
         (error: HttpErrorResponse) => {

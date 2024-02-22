@@ -19,10 +19,23 @@
         [modeloData]="InfoPracticasAcademicas"
       ></ngx-dinamicform>
 
-      <div class="files-container">
-        <!-- <ngx-download-file-nuxeo (loading)="changeLoading($event)" *ngFor="let file of files" [idDoc]="file.id"
-            [label]="file.label">
-          </ngx-download-file-nuxeo> -->
+      <div
+        class="border border-primary-900 shadow-sm rounded-tl-lg rounded-tr-lg bg-primary-900 m-3"
+      >
+        <div
+          class="py-2 px-2 bg-primary-100 rounded-tl-md rounded-tr-md flex items-center"
+        >
+          <div class="flex-auto px-2 py-1 mr-1 rounded-md text-base">
+            Documentos
+          </div>
+          <div class="rounded-full h-4 w-4 bg-primary-900 flex mr-3"></div>
+        </div>
+        <div class="px-2 py-4 bg-white flex flex-wrap">
+          <ngx-download-file-nuxeo
+            *ngFor="let file of files"
+            [file]="file"
+          ></ngx-download-file-nuxeo>
+        </div>
       </div>
 
       <div class="row col-12" *ngIf="['news', 'process'].includes(process)">
@@ -117,12 +130,21 @@
             ></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
-          <mat-paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
         </mat-expansion-panel>
       </mat-accordion>
 
-      <div class="send-invitation" *ngIf="['invitation'].includes(process)">
-        <button class="btn btn-success" (click)="enviarInvitacion()">
+      <div
+        class="send-invitation flex justify-center"
+        *ngIf="['invitation'].includes(process)"
+      >
+        <button
+          class="bg-primary-900 text-white font-medium text-sm py-2.5 px-6 rounded flex items-center gap-2 hover:bg-primary-700 mb-1"
+          (click)="enviarInvitacion()"
+        >
           {{ "practicas_academicas.enviar_invitacion" | translate }}
         </button>
       </div>

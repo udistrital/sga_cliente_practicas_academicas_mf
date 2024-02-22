@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
-<div class="pt-5 max-w-[1200px] min-w-[720px]">
+<div class="container mt-10">
   <mat-card *ngIf="!loading">
     <mat-card-header>
       <h1 class="m-auto text-lg font-bold">
@@ -7,7 +7,7 @@
       </h1>
     </mat-card-header>
 
-    <mat-card-content class="p-6">
+    <mat-card-content >
       <ngx-solicitante-practica
         (loading)="changeLoading($event)"
         (docentes)="loadDocentes($event)"

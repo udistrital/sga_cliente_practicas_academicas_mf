@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator'; 
 import { ViewChild } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-list-practicas-academicas',
@@ -84,8 +85,6 @@ export class ListPracticasAcademicasComponent {
 
   applyFilter(event: Event) {
     let filterValue = (event.target as HTMLInputElement).value;
-    // filterValue = filterValue.trim(); // Remove whitespace
-    // filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
@@ -176,6 +175,7 @@ export class ListPracticasAcademicasComponent {
 
   }
 
+
   ngOnInit() {
     this.loading = true;
     this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
@@ -194,8 +194,12 @@ export class ListPracticasAcademicasComponent {
 
         this.getPracticasAcademicas(this.process, endpoint).subscribe((practicas: any) => {
           this.dataSource.data = practicas;
-          this.dataSource.paginator = this.paginator;
+          console.log("HOLA")
+          setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+          }, 50);
           this.loading = false;
+          
         },
           (error: HttpErrorResponse) => {
             this.loading = false;
