@@ -15,11 +15,12 @@ import { of } from "rxjs";
 })
 export class DownloadFileNuxeoComponent {
   //DECLARACION DE VARIABLES DEL COMPONENTE
-  loading: boolean = true;
   private archivo: any = null;
   private _idDoc!: number;
   private urlBlobOriginal: string | null = null;
+  loading: boolean = true;
   informacionArchivo: any = null;
+  esAbiertoMenu: boolean = false;
 
   @Input("file")
   set file(file: any) {
@@ -34,6 +35,7 @@ export class DownloadFileNuxeoComponent {
     private sanitizer: DomSanitizer,
     private dialog: MatDialog
   ) {}
+
 
   private cargarArchivo() {
     if (this.archivo) {

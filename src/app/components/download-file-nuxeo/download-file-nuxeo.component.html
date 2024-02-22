@@ -1,14 +1,16 @@
-<div class="bg-white p-3 rounded-xl w-80">
+<div class="bg-white m-2 rounded-xl">
   <!-- Spinner de carga -->
   <div *ngIf="loading" class="flex justify-center items-center">
-    <mat-spinner></mat-spinner> <!-- Puedes reemplazar esto con tu spinner personalizado -->
+    <mat-spinner></mat-spinner>
+    <!-- Puedes reemplazar esto con tu spinner personalizado -->
   </div>
 
   <div *ngIf="!loading && !informacionArchivo">
     <p>Error al cargar el archivo.</p>
   </div>
 
-  <div *ngIf="!loading && informacionArchivo"
+  <div
+    *ngIf="!loading && informacionArchivo && false"
     class="border-2 rounded-md p-8 border-dotted w-full h-full flex flex-col items-center"
   >
     <p class="font-medium mb-1">Documento</p>
@@ -31,8 +33,24 @@
       <mat-icon>cloud_download</mat-icon>
     </button>
   </div>
+
+  <div
+    *ngIf="!loading && informacionArchivo"
+    class="border-2 rounded-md p-2 border-dotted w-full h-full flex flex-col items-center hover:bg-primary-0 hover:cursor-pointer focus:bg-primary-3"
+  >
+    <mat-icon> insert_drive_file</mat-icon>
+    <p
+      class="text-gray-800 hover:text-black focus:text-black text-sm font-light truncate m-0"
+    >
+      {{ informacionArchivo ? informacionArchivo.Nombre : "Sin nombre" }}
+    </p>
+    <div class="flex space-x-3">
+      <button class="p-1 m-0 hover:bg-primary-900 hover:text-white rounded hover:cursor-pointer" (click)="verArchivo()">
+        <mat-icon>pageview</mat-icon>
+      </button>
+      <button class="p-1 m-0 hover:bg-primary-900 hover:text-white rounded hover:cursor-pointer" (click)="descargarArchivo()">
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
-
-
-
-

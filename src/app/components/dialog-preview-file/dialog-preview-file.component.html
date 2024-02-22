@@ -1,4 +1,4 @@
-<h5 align="center">{{title}}</h5>
+<h5 class="my-2 font-bold" align="center">{{title}}</h5>
 <object [data]="ulrfileSafe" type="application/pdf" *ngIf="validsafe"></object>
 <div class="nofile" *ngIf="!validsafe">
     {{ 'ERROR.error_previsualizar_doc' | translate }}

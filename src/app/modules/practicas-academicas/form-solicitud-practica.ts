@@ -159,7 +159,7 @@ export const FORM_DOCUMENTOS_ADICIONALES_LEGALIZACION = {
     campos: [
         {
             etiqueta: 'file',
-            claseGrid: 'col-12 col-md-12',
+            claseGrid: 'col-12 col-md-12 ',
             clase: 'form-control',
             nombre: 'InformePractica',
             label_i18n: 'informe_practica',
