@@ -1,8 +1,8 @@
 <!-- http://localhost:4200/practicas-academicas/lista-practicas/bmV3cw -->
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+<mat-spinner *ngIf="loading" class="mt-14 spinner m-auto" diameter="50"></mat-spinner>
 <div *ngIf="!loading" class="container mx-auto mt-8">
     <mat-card-header class=" px-4 py-2 ">
-      <h1 class="text-lg font-bold m-auto">{{ "practicas_academicas.lista_titulo" | translate }}</h1>
+      <h1 class="text-lg font-bold m-auto">{{ "practicas_academicas.lista_titulo" | translate }}  {{this.process}}</h1>
     </mat-card-header>
 
     <div class="space-y-2">
@@ -23,7 +23,7 @@
         >
           <!-- Columna ID -->
           <ng-container matColumnDef="Id" >
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
               {{ translate.instant("solicitudes.numero") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.Id }}</mat-cell>
@@ -31,7 +31,7 @@
 
           <!-- Columna Fecha de Radicación -->
           <ng-container matColumnDef="FechaRadicacion">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
               {{ translate.instant("solicitudes.fecha") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">

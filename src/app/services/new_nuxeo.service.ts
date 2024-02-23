@@ -6,6 +6,8 @@ import { HttpEventType } from "@angular/common/http";
 import { AnyService } from "./any.service";
 import { DocumentoService } from "./documento.service";
 import { Documento } from "src/app/models/documento/documento";
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
@@ -286,44 +288,45 @@ export class NewNuxeoService {
   }
 
   get(files: any[]) {
-    const documentsSubject = new Subject<Documento[]>();
+    const documentsSubject = new Subject<any>();
     const documents$ = documentsSubject.asObservable();
-    const documentos = files;
-    let i = 0;
-    files.map(
-      (
-        file: { Id: string; ContentType: any },
-        index: string | number | any
-      ) => {
-        this.documentService
-          .get("documento/" + file.Id)
-          .subscribe((doc: { Enlace: string; Nombre: any; Metadatos: any }) => {
-            this.anyService
-              .get(environment.NUXEO_SERVICE, "/document/" + doc.Enlace)
-              .subscribe(async (f: any) => {
-                const url = await this.getUrlFile(
-                  f.file,
-                  file.ContentType
-                    ? file.ContentType
-                    : f["file:content"]["mime-type"]
-                );
-                documentos[index] = {
-                  ...documentos[index],
-                  ...{ url: url },
-                  ...{
-                    Documento: this.sanitization.bypassSecurityTrustUrl(url),
-                  },
-                  ...{ Nombre: doc.Nombre },
-                  ...{ Metadatos: doc.Metadatos },
-                };
-                i += 1;
-                if (i === files.length) {
-                  documentsSubject.next(documentos);
-                }
-              });
-          });
-      }
-    );
+    let processedCount = 0;
+  
+    files.forEach((file, index) => {
+      this.documentService.get("documento/" + file.Id).pipe(
+        catchError(err => {
+          // Manejo del error al obtener el documento
+          documentsSubject.next({ error: true, message: `Error al obtener el documento con Id: ${file.Id}`, detail: err });
+          return throwError(err); // Puedes decidir cómo manejar este flujo de error
+        })
+      ).subscribe(doc => {
+        this.anyService.get(environment.NUXEO_SERVICE, "/document/" + doc.Enlace).pipe(
+          catchError(err => {
+            // Manejo del error al obtener detalles adicionales
+            documentsSubject.next({ error: true, message: `Error al obtener detalles del documento con Id: ${file.Id}`, detail: err });
+            return throwError(err);
+          })
+        ).subscribe(async (f:any) => {
+          // Procesamiento exitoso
+          const url = await this.getUrlFile(
+            f.file,
+            file.ContentType ? file.ContentType : f["file:content"]["mime-type"]
+          );
+          files[index] = {
+            ...files[index],
+            url: url,
+            Documento: this.sanitization.bypassSecurityTrustUrl(url),
+            Nombre: doc.Nombre,
+            Metadatos: doc.Metadatos
+          };
+          processedCount++;
+          if (processedCount === files.length) {
+            documentsSubject.next(files); // Enviar todos los documentos procesados al completar
+          }
+        });
+      });
+    });
+  
     return documents$;
   }
 

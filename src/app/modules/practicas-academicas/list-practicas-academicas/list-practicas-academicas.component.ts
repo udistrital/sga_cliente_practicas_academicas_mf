@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator'; 
 import { ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -67,6 +68,7 @@ export class ListPracticasAcademicasComponent {
   processEncript: any;
   loading: boolean;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private practicasService: PracticasAcademicasService,
@@ -83,8 +85,27 @@ export class ListPracticasAcademicasComponent {
     });
   }
 
+
   applyFilter(event: Event) {
-    let filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const matchFilter = [];
+  
+      // Convertir la fecha y comparar
+      const formattedDate = data.FechaRadicacion ? this.formatDate(data.FechaRadicacion) : '';
+      matchFilter.push(formattedDate.includes(filter));
+  
+      // Comparar otras propiedades
+      matchFilter.push(data.Id.toString().toLowerCase().includes(filter));
+      matchFilter.push(data.TipoSolicitud.Nombre.toLowerCase().includes(filter));
+      matchFilter.push(data.EstadoId.Nombre.toLowerCase().includes(filter));
+      // ... cualquier otra columna que necesites filtrar
+  
+      // Devuelve true si alguna columna coincide
+      return matchFilter.some(Boolean);
+    };
+  
     this.dataSource.filter = filterValue;
   }
 
@@ -95,7 +116,7 @@ export class ListPracticasAcademicasComponent {
     }
     const endpoint = 'practicas_academicas?query=EstadoTipoSolicitudId.TipoSolicitud.Id:23&fields=Id,FechaRadicacion,EstadoTipoSolicitudId';
     this.practicasService.getPracticas(endpoint, this.InfoPracticasAcademicas, null).subscribe((practicas: any) => {
-      this.datosPracticas = practicas;
+      this.dataSource.data = practicas;
     });
   }
 
@@ -181,7 +202,6 @@ export class ListPracticasAcademicasComponent {
     this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
       const { process } = params.params;
       this.process = atob(process);
-      console.log("OPERACION   " + this.process);
       this.processEncript = process;
 
       this.autenticationService.getRole().then((rol: Array<String>) => {
@@ -194,9 +214,24 @@ export class ListPracticasAcademicasComponent {
 
         this.getPracticasAcademicas(this.process, endpoint).subscribe((practicas: any) => {
           this.dataSource.data = practicas;
-          console.log("HOLA")
           setTimeout(() => {
             this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.dataSource.sortData = (data, sort: MatSort) => {
+              if (sort.active && sort.direction !== '') {
+                return data.sort((a, b) => {
+                  const isAsc = sort.direction === 'asc';
+                  switch (sort.active) {
+                    case 'FechaRadicacion': return this.compare(a.FechaRadicacion, b.FechaRadicacion, isAsc);
+                    default: return 0;
+                  }
+                });
+              } else {
+                return data;
+              }
+            };
+            this.sortDataInicial();
+            
           }, 50);
           this.loading = false;
           
@@ -229,6 +264,25 @@ export class ListPracticasAcademicasComponent {
       
       this.router.navigateByUrl(`/practicas-academicas/detalle-practica-academica/${element['Id']}/${this.processEncript}`)
     }
+  }
+
+  sortDataInicial() {
+    this.sort.active = 'FechaRadicacion';
+    this.sort.direction = 'desc'; // 'asc' para ascendente, 'desc' para descendente
+    this.sort.sortChange.emit(); // Dispara el evento de cambio de ordenamiento
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return `${this.pad(date.getDate())}/${this.pad(date.getMonth() + 1)}/${date.getFullYear()}`;
+  }
+  
+  pad(n: number) {
+    return n < 10 ? '0' + n : n;
   }
 
 }

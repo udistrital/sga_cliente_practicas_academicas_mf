@@ -372,7 +372,6 @@ export class DetallePracticaAcademicaComponent {
 
   enviarInvitacion() {
     this.loading = true;
-    console.log(this.InfoPracticasAcademicas)
     this.sgamidService
       .post(
         "practicas_academicas/enviar_invitacion/",

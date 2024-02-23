@@ -1,5 +1,5 @@
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
-<div class="pt-5 max-w-[1200px] min-w-[720px]">
+<mat-spinner *ngIf="loading" class="spinner mt-10 m-auto" diameter="50"></mat-spinner>
+<div class="container mt-10" *ngIf="!loading">
   <mat-card>
     <mat-card-header>
       <h1 class="m-auto text-lg font-bold">
@@ -20,7 +20,7 @@
       ></ngx-dinamicform>
 
       <div
-        class="border-2 border-primary-900 shadow-sm rounded-tl-lg rounded-tr-lg bg-primary-900 m-3"
+        class="border-2 border-primary-700 shadow-sm rounded-lg bg-primary-900 m-3"
       >
         <div
           class="py-2 px-2 bg-gray-50 rounded-tl-md rounded-tr-md flex items-center"
@@ -28,7 +28,7 @@
           <div class="flex-auto px-2 py-1 mr-1 rounded-md text-base">
             Documentos
           </div>
-          <div class="rounded-full h-4 w-4 bg-primary-900 flex mr-3"></div>
+          
         </div>
         <div class="px-2 py-4 bg-white flex flex-wrap">
           <ngx-download-file-nuxeo

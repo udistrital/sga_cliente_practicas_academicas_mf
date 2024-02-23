@@ -21,6 +21,7 @@ export class DownloadFileNuxeoComponent {
   loading: boolean = true;
   informacionArchivo: any = null;
   esAbiertoMenu: boolean = false;
+  error: boolean = false;
 
   @Input("file")
   set file(file: any) {
@@ -37,41 +38,45 @@ export class DownloadFileNuxeoComponent {
   ) {}
 
 
-  private cargarArchivo() {
+  cargarArchivo() {
     if (this.archivo) {
       this.loading = true;
+      this.error = false;
+      
       this.nuxeoService
         .get([this.archivo])
         .pipe(
           catchError((err) => {
-            // Manejo del error
             this.loading = false;
-            Swal.fire({
-              title: "Error",
-              text: "No se pudo cargar el archivo. ¿Deseas intentarlo nuevamente?",
-              icon: "error",
-              showCancelButton: true,
-              confirmButtonText: "Reintentar",
-              cancelButtonText: "Cancelar",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.cargarArchivo(); // Reintentar la carga
-              }
-            });
-            return of(null); // Retorna un observable nulo para manejar el error
+            this.error = true;
+            return of(null);
           })
         )
-        .subscribe((respuesta: any) => {
-          if (respuesta) {
-            this.informacionArchivo = respuesta[0];
-            this.urlBlobOriginal = this.informacionArchivo.url;
-            this.informacionArchivo.url =
-              this.sanitizer.bypassSecurityTrustResourceUrl(
-                this.informacionArchivo.url
-              );
-          }
-          this.loading = false;
-        });
+        .subscribe(
+          respuesta => {
+            if(respuesta.error){
+              this.error = true;
+              this.loading = false;
+              return
+            }
+            
+            if (respuesta) {
+              this.informacionArchivo = respuesta[0];
+              this.urlBlobOriginal = this.informacionArchivo.url;
+              this.informacionArchivo.url =
+                this.sanitizer.bypassSecurityTrustResourceUrl(
+                  this.informacionArchivo.url
+                );
+              this.loading = false
+            }
+            
+            this.loading = false;
+          },
+          err => {
+            this.error = true;
+            this.loading = false;
+          }          
+        );
     }
   }
 
@@ -98,7 +103,6 @@ export class DownloadFileNuxeoComponent {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        console.log(`Dialog result: ${result}`);
       });
     }
   }
