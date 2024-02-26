@@ -7,6 +7,7 @@ import { DialogPreviewFileComponent } from "../dialog-preview-file/dialog-previe
 import { catchError } from "rxjs/operators";
 import Swal from "sweetalert2";
 import { of } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ngx-download-file-nuxeo",
@@ -34,7 +35,8 @@ export class DownloadFileNuxeoComponent {
     private documentoService: DocumentoService,
     private nuxeoService: NewNuxeoService,
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private translate: TranslateService,
   ) {}
 
 

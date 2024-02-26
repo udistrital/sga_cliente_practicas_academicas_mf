@@ -29,7 +29,7 @@
         <!-- Correo Column -->
         <ng-container matColumnDef="Correo">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Correo
+            {{ "GLOBAL.correo" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.Correo }}
@@ -39,7 +39,7 @@
         <!-- Telefono Column -->
         <ng-container matColumnDef="Telefono">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Teléfono
+            {{ "solicitudes.telefono" | translate}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.Telefono }}

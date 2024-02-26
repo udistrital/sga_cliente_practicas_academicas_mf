@@ -441,11 +441,9 @@ export class NuevaSolicitudComponent {
             .tz(this.NuevaSolicitud.FechaHoraSalida, "America/Bogota")
             .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
 
-        const fecha = new Date();
-        this.NuevaSolicitud.FechaRadicacion = moment(
-          `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`,
+        this.NuevaSolicitud.FechaRadicacion = moment().format(
           "YYYY-MM-DD HH:mm:ss"
-        ).format("YYYY-MM-DD HH:mm:ss");
+        );
 
         const apiCall = this.idPractica
           ? this.sgamidService.put("practicas_academicas", this.NuevaSolicitud)
@@ -470,7 +468,9 @@ export class NuevaSolicitudComponent {
                 icon: "success",
                 confirmButtonText: "Cerrar",
               }).then(() => {
-                this.router.navigate([`/practicas-academicas/lista-practicas/${btoa("process")}`]);
+                this.router.navigate([
+                  `/practicas-academicas/lista-practicas/${btoa("process")}`,
+                ]);
               });
             } else {
               Swal.fire({
