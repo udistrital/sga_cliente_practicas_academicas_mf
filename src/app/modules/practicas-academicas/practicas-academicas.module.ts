@@ -8,6 +8,7 @@ import { NewNuxeoService } from 'src/app/services/new_nuxeo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SolicitantePracticaComponent } from './solicitante-practica/solicitante-practica.component';
+import { DownloadFileNuxeoComponent } from 'src/app/components/download-file-nuxeo/download-file-nuxeo.component';
 
 //MATERIAL
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -40,6 +41,8 @@ import { DialogPreviewFileComponent } from 'src/app/components/dialog-preview-fi
 import { DetallePracticaAcademicaComponent } from './detalle-practica-academica/detalle-practica-academica.component';
 import { NgIsGrantedDirective } from 'src/app/directives/ng-is-granted.directive';
 
+//ANGULAR CDK
+import { OverlayModule } from "@angular/cdk/overlay";
 
 
 @NgModule({
@@ -50,7 +53,9 @@ import { NgIsGrantedDirective } from 'src/app/directives/ng-is-granted.directive
     DinamicFormComponent,
     DialogPreviewFileComponent,
     DetallePracticaAcademicaComponent,
-    NgIsGrantedDirective
+    NgIsGrantedDirective,
+    DownloadFileNuxeoComponent
+    
   ],
   imports: [
     CommonModule,
@@ -83,6 +88,7 @@ import { NgIsGrantedDirective } from 'src/app/directives/ng-is-granted.directive
     MatButtonModule,
     MatSelectModule,
     MatTooltipModule,
+    OverlayModule
     
   ],
   providers: [

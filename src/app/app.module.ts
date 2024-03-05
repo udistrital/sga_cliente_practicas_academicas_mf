@@ -42,7 +42,7 @@ import { MatNativeDateModule } from "@angular/material/core";
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(
     http,
-    `${environment.apiUrl}assets/i18n/`,
+    `${environment.urlMf}assets/i18n/`,
     ".json"
   );
 }

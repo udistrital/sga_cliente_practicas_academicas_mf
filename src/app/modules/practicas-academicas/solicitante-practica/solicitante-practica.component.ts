@@ -93,14 +93,14 @@ export class SolicitantePracticaComponent {
   construirForm() {
     this.info_persona_id = this.userService.getPersonaId();
     this.docenteSolicitante.titulo = this.translate.instant(
-      "practicas_academicas.colaborador"
+      "PRACTICAS_ACADEMICAS.colaborador"
     );
     this.docenteSolicitante.campos.forEach((campo: any) => {
       campo.label = this.translate.instant(
-        "practicas_academicas." + campo.label_i18n
+        "PRACTICAS_ACADEMICAS." + campo.label_i18n
       );
       campo.placeholder = this.translate.instant(
-        "practicas_academicas.placeholder_" + campo.placeholder_i18n
+        "PRACTICAS_ACADEMICAS.placeholder_" + campo.placeholder_i18n
       );
     });
   }
@@ -110,7 +110,7 @@ export class SolicitantePracticaComponent {
       add: {
         addButtonContent:
           '<i class="nb-plus" title="' +
-          this.translate.instant("practicas_academicas.tooltip_agregar") +
+          this.translate.instant("PRACTICAS_ACADEMICAS.tooltip_agregar") +
           '"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
         cancelButtonContent: '<i class="nb-close"></i>',
@@ -118,40 +118,40 @@ export class SolicitantePracticaComponent {
       delete: {
         deleteButtonContent:
           '<i class="nb-trash" title="' +
-          this.translate.instant("practicas_academicas.tooltip_remover") +
+          this.translate.instant("PRACTICAS_ACADEMICAS.tooltip_remover") +
           '"></i>',
         confirmDelete: true,
       },
       actions: {
         edit: false,
         position: "right",
-        columnTitle: this.translate.instant("practicas_academicas.actions"),
+        columnTitle: this.translate.instant("PRACTICAS_ACADEMICAS.actions"),
       },
       mode: "external",
       columns: {
         Nombre: {
-          title: this.translate.instant("practicas_academicas.nombre"),
+          title: this.translate.instant("PRACTICAS_ACADEMICAS.nombre"),
           valuePrepareFunction: (value: any) => {
             return value;
           },
           width: "30%",
         },
         TipoVinculacionId: {
-          title: this.translate.instant("practicas_academicas.vinculacion"),
+          title: this.translate.instant("PRACTICAS_ACADEMICAS.vinculacion"),
           valuePrepareFunction: (value: any) => {
             return value.Nombre;
           },
           width: "30%",
         },
         Correo: {
-          title: this.translate.instant("practicas_academicas.correo"),
+          title: this.translate.instant("PRACTICAS_ACADEMICAS.correo"),
           valuePrepareFunction: (value: any) => {
             return value;
           },
           width: "25%",
         },
         Telefono: {
-          title: this.translate.instant("practicas_academicas.telefono"),
+          title: this.translate.instant("PRACTICAS_ACADEMICAS.telefono"),
           valuePrepareFunction: (value: any) => {
             return value;
           },
@@ -234,7 +234,7 @@ export class SolicitantePracticaComponent {
         icon: "error",
         title: "ERROR",
         text: this.translate.instant(
-          "practicas_academicas.error_docente_ya_registrado"
+          "PRACTICAS_ACADEMICAS.error_docente_ya_registrado"
         ),
         confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
       });
@@ -277,7 +277,7 @@ export class SolicitantePracticaComponent {
                     this.docenteColaborador.TipoVinculacionId.Nombre;
                   this.snackBar.open(
                     this.translate.instant(
-                      "practicas_academicas.docente_encontrado"
+                      "PRACTICAS_ACADEMICAS.docente_encontrado"
                     ),
                     this.translate.instant("GLOBAL.operacion_exitosa"),
                     {
@@ -285,7 +285,7 @@ export class SolicitantePracticaComponent {
                       panelClass: ["success-snackbar"],
                     }
                   );
-                  // this.popUpManager.showToast("success", this.translate.instant('practicas_academicas.docente_encontrado'), this.translate.instant('GLOBAL.operacion_exitosa'))
+                  // this.popUpManager.showToast("success", this.translate.instant('PRACTICAS_ACADEMICAS.docente_encontrado'), this.translate.instant('GLOBAL.operacion_exitosa'))
                 }
               } else {
                 this.docenteColaborador = undefined;
@@ -299,7 +299,7 @@ export class SolicitantePracticaComponent {
                   title: "ERROR",
                   text:
                     this.translate.instant(
-                      "practicas_academicas.error_docente_no_existe"
+                      "PRACTICAS_ACADEMICAS.error_docente_no_existe"
                     ) +
                     event.data.docDocente +
                     ".",
@@ -328,7 +328,7 @@ export class SolicitantePracticaComponent {
           icon: "error",
           title: "ERROR",
           text: this.translate.instant(
-            "practicas_academicas.alerta_llenar_campo_numeros"
+            "PRACTICAS_ACADEMICAS.alerta_llenar_campo_numeros"
           ),
           confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
         });
@@ -344,7 +344,7 @@ export class SolicitantePracticaComponent {
         icon: "error",
         title: "ERROR",
         text: this.translate.instant(
-          "practicas_academicas.alerta_llenar_campo"
+          "PRACTICAS_ACADEMICAS.alerta_llenar_campo"
         ),
         confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
       });
@@ -368,7 +368,7 @@ export class SolicitantePracticaComponent {
         icon: "error",
         title: "ERROR",
         text: this.translate.instant(
-          "practicas_academicas.error_docente_borrar"
+          "PRACTICAS_ACADEMICAS.error_docente_borrar"
         ),
         confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
       });

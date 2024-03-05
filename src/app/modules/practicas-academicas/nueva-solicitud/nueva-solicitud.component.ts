@@ -119,7 +119,7 @@ export class NuevaSolicitudComponent {
             this.tablaEstados = {
               columns: {
                 EstadoTipoSolicitudId: {
-                  title: this.translate.instant("solicitudes.estado"),
+                  title: this.translate.instant("SOLICITUDES.estado"),
                   width: "20%",
                   valuePrepareFunction: (value: any) => {
                     return value.EstadoId.Nombre;
@@ -127,7 +127,7 @@ export class NuevaSolicitudComponent {
                   editable: false,
                 },
                 FechaCreacion: {
-                  title: this.translate.instant("solicitudes.fecha"),
+                  title: this.translate.instant("SOLICITUDES.fecha"),
                   width: "20%",
                   valuePrepareFunction: (value: any) => {
                     return moment(value, "YYYY-MM-DD").format("DD/MM/YYYY");
@@ -135,7 +135,7 @@ export class NuevaSolicitudComponent {
                   editable: false,
                 },
                 Comentario: {
-                  title: this.translate.instant("solicitudes.observaciones"),
+                  title: this.translate.instant("SOLICITUDES.observaciones"),
                   width: "20%",
                   editable: false,
                 },
@@ -154,14 +154,14 @@ export class NuevaSolicitudComponent {
                     title:
                       '<i class="nb-search" title="' +
                       this.translate.instant(
-                        "practicas_academicas.tooltip_ver_registro"
+                        "PRACTICAS_ACADEMICAS.tooltip_ver_registro"
                       ) +
                       '"></i>',
                   },
                 ],
               },
               noDataMessage: this.translate.instant(
-                "practicas_academicas.no_data"
+                "PRACTICAS_ACADEMICAS.no_data"
               ),
             };
           }
@@ -340,28 +340,28 @@ export class NuevaSolicitudComponent {
   construirForm() {
     this.info_persona_id = this.userService.getPersonaId();
     this.FormPracticasAcademicas.titulo = this.translate.instant(
-      "practicas_academicas.datos"
+      "PRACTICAS_ACADEMICAS.datos"
     );
     this.FormPracticasAcademicas.btn =
-      this.translate.instant("proyecto.siguiente");
+      this.translate.instant("GLOBAL.siguiente");
     for (let i = 0; i < this.FormPracticasAcademicas.campos.length; i++) {
       this.FormPracticasAcademicas.campos[i].label = this.translate.instant(
-        "practicas_academicas." +
+        "PRACTICAS_ACADEMICAS." +
           this.FormPracticasAcademicas.campos[i].label_i18n
       );
       this.FormPracticasAcademicas.campos[i].placeholder =
         this.translate.instant(
-          "practicas_academicas.placeholder_" +
+          "PRACTICAS_ACADEMICAS.placeholder_" +
             this.FormPracticasAcademicas.campos[i].label_i18n
         );
       this.FormPracticasAcademicas.campos[i].deshabilitar = false;
     }
 
     this.FormSoporteDocumentales.titulo = this.translate.instant(
-      "practicas_academicas.datos"
+      "PRACTICAS_ACADEMICAS.datos"
     );
     this.FormSoporteDocumentales.btn =
-      this.translate.instant("solicitudes.enviar");
+      this.translate.instant("SOLICITUDES.enviar");
 
     this.FormSoporteDocumentales.campos =
       this.FormSoporteDocumentales.campos.map((campo: any) => {
@@ -369,7 +369,7 @@ export class NuevaSolicitudComponent {
           ...campo,
           ...{
             label: this.translate.instant(
-              "practicas_academicas." + campo.label_i18n
+              "PRACTICAS_ACADEMICAS." + campo.label_i18n
             ),
             deshabilitar: false,
           },
@@ -426,12 +426,11 @@ export class NuevaSolicitudComponent {
               files.push(file);
             } catch (error) {
               console.error("Error al convertir el archivo a Base64:", error);
-              // Manejo de errores o lógica adicional según sea necesario
             }
           }
         }
         this.NuevaSolicitud.Documentos = files;
-        this.loading = false; 
+        this.loading = false;
 
         this.NuevaSolicitud.FechaHoraRegreso =
           momentTimezone
@@ -442,140 +441,75 @@ export class NuevaSolicitudComponent {
             .tz(this.NuevaSolicitud.FechaHoraSalida, "America/Bogota")
             .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
 
-        const fecha = new Date();
-        this.NuevaSolicitud.FechaRadicacion = moment(
-          `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`,
+        this.NuevaSolicitud.FechaRadicacion = moment().format(
           "YYYY-MM-DD HH:mm:ss"
-        ).format("YYYY-MM-DD HH:mm:ss");
+        );
 
-        if (this.idPractica) {
-          this.NuevaSolicitud.EstadoTipoSolicitudIdAnterior = { Id: 35 };
-          this.NuevaSolicitud.Estado = { Id: 17 };
-          this.NuevaSolicitud.IdTercero =
-            this.NuevaSolicitud.DocenteSolicitante.Id;
-          this.NuevaSolicitud.FechaRespuesta =
-            momentTimezone
-              .tz(event.data.documental.FechaRespuesta, "America/Bogota")
-              .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
-          this.NuevaSolicitud.Comentario = "";
-          this.NuevaSolicitud.Estados = [];
-
-          this.sgamidService
-            .put("practicas_academicas", this.NuevaSolicitud)
-            .subscribe(
-              (res: any) => {
-                const r = <any>res["Response"]["Body"][0];
-                if (r !== null && r.Type !== "error") {
-                  if (r.Status === "200" && r["Data"] !== null) {
-                    this.ngOnInit();
-                    this.FormPracticasAcademicas.campos.forEach(
-                      (campo: any) => {
-                        campo.deshabilitar = true;
-                      }
-                    );
-                    this.FormSoporteDocumentales.campos.forEach(
-                      (campo: any) => {
-                        campo.deshabilitar = true;
-                      }
-                    );
-                    this.practicasService.clearCache();
-                    this.loading = false;
-                    this.snackBar.open(
-                      this.translate.instant("GLOBAL.info_estado") +
-                        " " +
-                        this.translate.instant("GLOBAL.confirmarActualizar"),
-                      "Cerrar",
-                      {
-                        duration: 3000, // Duración en milisegundos, ajusta según necesites
-                        panelClass: ["success-snackbar"], // Puedes añadir clases CSS personalizadas si lo necesitas
-                      }
-                    );
-                    this.router.navigate([
-                      `/lista-practicas/${btoa(
-                        "process"
-                      )}`,
-                    ]);
-                  }
-                } else {
-                  this.loading = false;
-                  this.snackBar.open(
-                    this.translate.instant("GLOBAL.error_practicas_academicas"),
-                    "Cerrar",
-                    {
-                      duration: 3000, // Duración en milisegundos, ajusta según necesites
-                      panelClass: ["error-snackbar"], // Puedes añadir clases CSS personalizadas si lo necesitas
-                    }
-                  );
-                }
-              },
-              (error: HttpErrorResponse) => {
-                Swal.fire({
-                  icon: "error",
-                  title: error.status + "",
-                  text: this.translate.instant("ERROR." + error.status),
-                  footer:
-                    this.translate.instant("GLOBAL.crear") +
-                    "-" +
-                    this.translate.instant("GLOBAL.info_practicas_academicas"),
-                  confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-                });
-              }
+        const apiCall = this.idPractica
+          ? this.sgamidService.put("practicas_academicas", this.NuevaSolicitud)
+          : this.sgamidService.post(
+              "practicas_academicas/",
+              this.NuevaSolicitud
             );
-        } else {
-          this.sgamidService
-            .post("practicas_academicas/", this.NuevaSolicitud)
-            .subscribe(
-              (res) => {
-                const r = <any>res;
-                if (r !== null && r.Response.Type !== "error") {
-                  this.loading = false;
-                  this.practicasService.clearCache();
-                  const message =
-                    this.translate.instant("GLOBAL.info_estado") +
-                    " " +
-                    this.translate.instant(
-                      "practicas_academicas.solicitud_creada"
-                    );
 
-                  this.snackBar.open(message, "Cerrar", {
-                    duration: 3000, // Duración en milisegundos, ajusta según necesites
-                    horizontalPosition: "center",
-                    verticalPosition: "top",
-                    panelClass: ["success-snackbar"], // Puedes añadir clases CSS personalizadas si lo necesitas
-                  });
-                  this.router.navigate([
-                    `/lista-practicas/${btoa(
-                      "process"
-                    )}`,
-                  ]);
+        apiCall.subscribe(
+          (res) => {
+            const r = <any>res;
+            this.loading = false;
+            if (r !== null && r.Response.Type !== "error") {
+              this.practicasService.clearCache();
+              const solicitudId = r.Response.Body[0].Solicitud.Id;
+              Swal.fire({
+                title:
+                  this.translate.instant("GLOBAL.info_estado") +
+                  " " +
+                  this.translate.instant(
+                    "PRACTICAS_ACADEMICAS.solicitud_creada"
+                  )+ solicitudId,
+                
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              }).then(() => {
+                this.router.navigate([
+                  `/practicas-academicas/lista-practicas/${btoa("process")}`,
+                ]);
+              });
+            } else {
+              Swal.fire({
+                title: this.translate.instant(
+                  "GLOBAL.error_practicas_academicas"
+                ),
+                icon: "error",
+                confirmButtonText: "Reintentar",
+                cancelButtonText: "Salir",
+                showCancelButton: true,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Código para reintentar la acción
                 } else {
-                  this.loading = false;
-                  this.snackBar.open(
-                    this.translate.instant("GLOBAL.error_practicas_academicas"),
-                    "Cerrar",
-                    {
-                      duration: 3000, // Duración en milisegundos, ajusta según necesites
-                      horizontalPosition: "center",
-                      verticalPosition: "top",
-                      panelClass: ["error-snackbar"], // Puedes añadir clases CSS personalizadas si lo necesitas
-                    }
-                  );
+                  this.router.navigate(["/practicas-academicas"]);
                 }
-              },
-              (error: HttpErrorResponse) => {
-                Swal.fire({
-                  icon: "error",
-                  title: error.status + "",
-                  text: this.translate.instant("ERROR." + error.status),
-                  footer:
-                    this.translate.instant("GLOBAL.crear") +
-                    "-" +
-                    this.translate.instant("GLOBAL.info_practicas_academicas"),
-                  confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-                });
+              });
+            }
+          },
+          (error: HttpErrorResponse) => {
+            this.loading = false;
+            Swal.fire({
+              title: `Error ${error.status}`,
+              text: this.translate.instant("ERROR." + error.status),
+              icon: "error",
+              confirmButtonText: "Reintentar",
+              cancelButtonText: "Salir",
+              showCancelButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Código para reintentar la acción
+              } else {
+                this.router.navigate(["/practicas-academicas"]);
               }
-            );
-        }
+            });
+          }
+        );
       }
     }
   }
