@@ -231,52 +231,52 @@ export class DetallePracticaAcademicaComponent {
         switch (documento.Nombre) {
           case "Cronograma":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "cronograma_practica"
+              "PRACTICAS_ACADEMICAS." + "cronograma_practica"
             );
             break;
           case "Presupuesto":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "presupuesto_practica"
+              "PRACTICAS_ACADEMICAS." + "presupuesto_practica"
             );
             break;
           case "Presentacion":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "presentacion_practica"
+              "PRACTICAS_ACADEMICAS." + "presentacion_practica"
             );
             break;
           case "ListaEstudiantes":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "lista_estudiantes"
+              "PRACTICAS_ACADEMICAS." + "lista_estudiantes"
             );
             break;
           case "GuiaPractica":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "guia_practica"
+              "PRACTICAS_ACADEMICAS." + "guia_practica"
             );
             break;
           case "ListaPersonalApoyo":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "lista_personal_apoyo"
+              "PRACTICAS_ACADEMICAS." + "lista_personal_apoyo"
             );
             break;
           case "InformacionAsistente":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "info_asistencia_practica"
+              "PRACTICAS_ACADEMICAS." + "info_asistencia_practica"
             );
             break;
           case "ActaCompromiso":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "acta_compromiso"
+              "PRACTICAS_ACADEMICAS." + "acta_compromiso"
             );
             break;
           case "InformePractica":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "informe_practica"
+              "PRACTICAS_ACADEMICAS." + "informe_practica"
             );
             break;
           case "CumplidoPractica":
             documento.label = this.translate.instant(
-              "practicas_academicas." + "cumplido_practica"
+              "PRACTICAS_ACADEMICAS." + "cumplido_practica"
             );
             break;
         }
@@ -296,7 +296,7 @@ export class DetallePracticaAcademicaComponent {
 
   construirForm() {
     this.FormPracticasAcademicas.titulo = this.translate.instant(
-      "practicas_academicas.datos"
+      "PRACTICAS_ACADEMICAS.datos"
     );
     this.FormPracticasAcademicas.btn = "";
     this.FormPracticasAcademicas.campos.forEach((campo: any) => {
@@ -317,7 +317,7 @@ export class DetallePracticaAcademicaComponent {
         }
       }
       campo.label = this.translate.instant(
-        "practicas_academicas." + campo.label_i18n
+        "PRACTICAS_ACADEMICAS." + campo.label_i18n
       );
       campo.deshabilitar = true;
     });
@@ -325,17 +325,17 @@ export class DetallePracticaAcademicaComponent {
     this.formDocumentosAdicionalesLegalizacion.campos.forEach(
       (element: any) => {
         element.label = this.translate.instant(
-          "practicas_academicas." + element.label_i18n
+          "PRACTICAS_ACADEMICAS." + element.label_i18n
         );
         element.placeholder = this.translate.instant(
-          "practicas_academicas." + element.placeholder_i18n
+          "PRACTICAS_ACADEMICAS." + element.placeholder_i18n
         );
       }
     );
 
     this.formRespuestaSolicitud.campos.forEach((element: any) => {
       element.label = this.translate.instant(
-        "practicas_academicas." + element.label_i18n
+        "PRACTICAS_ACADEMICAS." + element.label_i18n
       );
       if (element.etiqueta === "select") {
         switch (element.nombre) {
@@ -385,7 +385,7 @@ export class DetallePracticaAcademicaComponent {
               this.loading = false;
               this.snackBar.open(
                 this.translate.instant(
-                  "practicas_academicas.invitaciones_enviadas"
+                  "PRACTICAS_ACADEMICAS.invitaciones_enviadas"
                 ),
                 "X",
                 {
@@ -398,7 +398,7 @@ export class DetallePracticaAcademicaComponent {
             this.loading = false;
             this.snackBar.open(
               this.translate.instant(
-                "practicas_academicas.invitaciones_no_enviadas"
+                "PRACTICAS_ACADEMICAS.invitaciones_no_enviadas"
               ),
               "X",
               {
@@ -415,7 +415,7 @@ export class DetallePracticaAcademicaComponent {
             title: error.status + "",
             text: this.translate.instant("ERROR." + error.status),
             footer:
-              this.translate.instant("practicas_academicas.enviar_invitacion") +
+              this.translate.instant("PRACTICAS_ACADEMICAS.enviar_invitacion") +
               "-" +
               this.translate.instant("GLOBAL.invitaciones_no_enviadas"),
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),

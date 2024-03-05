@@ -1,8 +1,7 @@
-<!-- http://localhost:4200/practicas-academicas/lista-practicas/bmV3cw -->
 <mat-spinner *ngIf="loading" class="mt-14 spinner m-auto" diameter="50"></mat-spinner>
 <div *ngIf="!loading" class="container mx-auto mt-8">
     <mat-card-header class=" px-4 py-2 ">
-      <h1 class="text-lg font-bold m-auto">{{ "practicas_academicas.lista_titulo" | translate }}  {{this.process}}</h1>
+      <h1 class="text-lg font-bold m-auto">{{ "PRACTICAS_ACADEMICAS.lista_titulo" | translate }}</h1>
     </mat-card-header>
 
     <div class="space-y-2">
@@ -24,7 +23,7 @@
           <!-- Columna ID -->
           <ng-container matColumnDef="Id" >
             <mat-header-cell *matHeaderCellDef mat-sort-header>
-              {{ translate.instant("solicitudes.numero") }}
+              {{ translate.instant("SOLICITUDES.numero") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.Id }}</mat-cell>
           </ng-container>
@@ -32,7 +31,7 @@
           <!-- Columna Fecha de Radicación -->
           <ng-container matColumnDef="FechaRadicacion">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
-              {{ translate.instant("solicitudes.fecha") }}
+              {{ translate.instant("SOLICITUDES.fecha") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               {{ element.FechaRadicacion | date : "dd/MM/yyyy" }}
@@ -42,7 +41,7 @@
           <!-- Columna Tipo de Solicitud -->
           <ng-container matColumnDef="TipoSolicitud">
             <mat-header-cell *matHeaderCellDef>
-              {{ translate.instant("solicitudes.tipo") }}
+              {{ translate.instant("SOLICITUDES.tipo") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               {{ element.TipoSolicitud.Nombre }}
@@ -52,7 +51,7 @@
           <!-- Columna Estado ID -->
           <ng-container matColumnDef="EstadoId">
             <mat-header-cell *matHeaderCellDef>
-              {{ translate.instant("solicitudes.estado") }}
+              {{ translate.instant("SOLICITUDES.estado") }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               {{ element.EstadoId.Nombre }}

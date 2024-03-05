@@ -2,7 +2,7 @@
   <fieldset [ngClass]="{ fieldseter: true }">
     <legend>
       &nbsp;
-      <small>{{ "practicas_academicas.solicitante" | translate }}</small>
+      <small>{{ "PRACTICAS_ACADEMICAS.solicitante" | translate }}</small>
     </legend>
     <div class="">
       <!-- TABLA -->
@@ -10,7 +10,7 @@
         <!-- Columna nombre -->
         <ng-container matColumnDef="Nombre">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ "practicas_academicas.nombre" | translate }}
+            {{ "PRACTICAS_ACADEMICAS.nombre" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.Nombre }}
@@ -20,7 +20,7 @@
         <!-- columna TipoVicunlacionId -->
         <ng-container matColumnDef="TipoVinculacionId">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ "practicas_academicas.tipo_vinculacion" | translate }}
+            {{ "PRACTICAS_ACADEMICAS.tipo_vinculacion" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.TipoVinculacionId.Nombre }}
@@ -39,7 +39,7 @@
         <!-- Telefono Column -->
         <ng-container matColumnDef="Telefono">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ "solicitudes.telefono" | translate}}
+            {{ "SOLICITUDES.telefono" | translate}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.Telefono }}

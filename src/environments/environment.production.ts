@@ -1,13 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: "http://localhost:4210/",
-  NUXEO: {
-    PATH: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
-    CREDENTIALS: {
-      USERNAME: "xxx",
-      PASS: "xxx",
-    },
-  },
+  production: true,
+  urlMf: "http://localhost:4210/",
   //NUXEO_SERVICE:'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1',
   NUXEO_SERVICE: "http://pruebasapi2.intranetoas.udistrital.edu.co:8199/v1",
   TERCEROS_SERVICE:

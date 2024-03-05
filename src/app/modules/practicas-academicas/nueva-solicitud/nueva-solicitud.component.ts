@@ -119,7 +119,7 @@ export class NuevaSolicitudComponent {
             this.tablaEstados = {
               columns: {
                 EstadoTipoSolicitudId: {
-                  title: this.translate.instant("solicitudes.estado"),
+                  title: this.translate.instant("SOLICITUDES.estado"),
                   width: "20%",
                   valuePrepareFunction: (value: any) => {
                     return value.EstadoId.Nombre;
@@ -127,7 +127,7 @@ export class NuevaSolicitudComponent {
                   editable: false,
                 },
                 FechaCreacion: {
-                  title: this.translate.instant("solicitudes.fecha"),
+                  title: this.translate.instant("SOLICITUDES.fecha"),
                   width: "20%",
                   valuePrepareFunction: (value: any) => {
                     return moment(value, "YYYY-MM-DD").format("DD/MM/YYYY");
@@ -135,7 +135,7 @@ export class NuevaSolicitudComponent {
                   editable: false,
                 },
                 Comentario: {
-                  title: this.translate.instant("solicitudes.observaciones"),
+                  title: this.translate.instant("SOLICITUDES.observaciones"),
                   width: "20%",
                   editable: false,
                 },
@@ -154,14 +154,14 @@ export class NuevaSolicitudComponent {
                     title:
                       '<i class="nb-search" title="' +
                       this.translate.instant(
-                        "practicas_academicas.tooltip_ver_registro"
+                        "PRACTICAS_ACADEMICAS.tooltip_ver_registro"
                       ) +
                       '"></i>',
                   },
                 ],
               },
               noDataMessage: this.translate.instant(
-                "practicas_academicas.no_data"
+                "PRACTICAS_ACADEMICAS.no_data"
               ),
             };
           }
@@ -340,28 +340,28 @@ export class NuevaSolicitudComponent {
   construirForm() {
     this.info_persona_id = this.userService.getPersonaId();
     this.FormPracticasAcademicas.titulo = this.translate.instant(
-      "practicas_academicas.datos"
+      "PRACTICAS_ACADEMICAS.datos"
     );
     this.FormPracticasAcademicas.btn =
-      this.translate.instant("proyecto.siguiente");
+      this.translate.instant("GLOBAL.siguiente");
     for (let i = 0; i < this.FormPracticasAcademicas.campos.length; i++) {
       this.FormPracticasAcademicas.campos[i].label = this.translate.instant(
-        "practicas_academicas." +
+        "PRACTICAS_ACADEMICAS." +
           this.FormPracticasAcademicas.campos[i].label_i18n
       );
       this.FormPracticasAcademicas.campos[i].placeholder =
         this.translate.instant(
-          "practicas_academicas.placeholder_" +
+          "PRACTICAS_ACADEMICAS.placeholder_" +
             this.FormPracticasAcademicas.campos[i].label_i18n
         );
       this.FormPracticasAcademicas.campos[i].deshabilitar = false;
     }
 
     this.FormSoporteDocumentales.titulo = this.translate.instant(
-      "practicas_academicas.datos"
+      "PRACTICAS_ACADEMICAS.datos"
     );
     this.FormSoporteDocumentales.btn =
-      this.translate.instant("solicitudes.enviar");
+      this.translate.instant("SOLICITUDES.enviar");
 
     this.FormSoporteDocumentales.campos =
       this.FormSoporteDocumentales.campos.map((campo: any) => {
@@ -369,7 +369,7 @@ export class NuevaSolicitudComponent {
           ...campo,
           ...{
             label: this.translate.instant(
-              "practicas_academicas." + campo.label_i18n
+              "PRACTICAS_ACADEMICAS." + campo.label_i18n
             ),
             deshabilitar: false,
           },
@@ -458,13 +458,15 @@ export class NuevaSolicitudComponent {
             this.loading = false;
             if (r !== null && r.Response.Type !== "error") {
               this.practicasService.clearCache();
+              const solicitudId = r.Response.Body[0].Solicitud.Id;
               Swal.fire({
                 title:
                   this.translate.instant("GLOBAL.info_estado") +
                   " " +
                   this.translate.instant(
-                    "practicas_academicas.solicitud_creada"
-                  ),
+                    "PRACTICAS_ACADEMICAS.solicitud_creada"
+                  )+ solicitudId,
+                
                 icon: "success",
                 confirmButtonText: "Cerrar",
               }).then(() => {

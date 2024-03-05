@@ -124,12 +124,12 @@ export class ListPracticasAcademicasComponent {
     this.tablaPracticas = {
       columns: {
         Id: {
-          title: this.translate.instant('solicitudes.numero'),
+          title: this.translate.instant('SOLICITUDES.numero'),
           width: '20%',
           editable: false,
         },
         FechaRadicacion: {
-          title: this.translate.instant('solicitudes.fecha'),
+          title: this.translate.instant('SOLICITUDES.fecha'),
           width: '20%',
           valuePrepareFunction: (value: any) => {
             return moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY')
@@ -137,7 +137,7 @@ export class ListPracticasAcademicasComponent {
           editable: false,
         },
         TipoSolicitud: {
-          title: this.translate.instant('solicitudes.tipo'),
+          title: this.translate.instant('SOLICITUDES.tipo'),
           width: '20%',
           valuePrepareFunction: (value: any) => {
             return value.Nombre;
@@ -145,7 +145,7 @@ export class ListPracticasAcademicasComponent {
           editable: false,
         },
         EstadoId: {
-          title: this.translate.instant('solicitudes.estado'),
+          title: this.translate.instant('SOLICITUDES.estado'),
           width: '20%',
           valuePrepareFunction: (value: any) => {
             return value.Nombre;
@@ -167,13 +167,13 @@ export class ListPracticasAcademicasComponent {
             title:
               '<i class="nb-search" title="' +
               this.translate.instant(
-                'practicas_academicas.tooltip_ver_registro',
+                'PRACTICAS_ACADEMICAS.tooltip_ver_registro',
               ) +
               '"></i>',
           },
         ],
       },
-      noDataMessage: this.translate.instant('practicas_academicas.no_data'),
+      noDataMessage: this.translate.instant('PRACTICAS_ACADEMICAS.no_data'),
     };
   }
 
