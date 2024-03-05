@@ -1,0 +1,87 @@
+<div class="">
+  <form class="form-horizontal">
+    <fieldset [ngClass]="{ fieldseter: true }">
+      <legend>
+        &nbsp;
+        <small>{{ "practicas_academicas.solicitante" | translate }}</small>
+      </legend>
+      <div class="">
+        <!-- TABLA -->
+        <mat-table [dataSource]="dataSource" matSort>
+          <!-- Columna nombre -->
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "practicas_academicas.nombre" | translate }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.Nombre }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- columna TipoVicunlacionId -->
+          <ng-container matColumnDef="TipoVinculacionId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "practicas_academicas.tipo_vinculacion" | translate }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.TipoVinculacionId.Nombre }}
+            </mat-cell>
+          </ng-container>
+          <!-- Correo Column -->
+          <ng-container matColumnDef="Correo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Correo
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.Correo }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Telefono Column -->
+          <ng-container matColumnDef="Telefono">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Teléfono
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.Telefono }}
+            </mat-cell>
+          </ng-container>
+          <!-- Columna de Acciones (Agregar/Eliminar) -->
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onCreateColaborador($event)"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">
+              <!-- Botón Eliminar -->
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onDeleteColaborador(element)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<ngx-dinamicform
+  [normalform]="docenteSolicitante"
+  [modeloData]="docenteColaborador"
+  (resultAux)="buscarColaborador($event)"
+  (result)="agregarColaborador($event)"
+  *ngIf="nuevoColaborador && nuevaSolicitud"
+>
+</ngx-dinamicform>
