@@ -5,7 +5,6 @@ import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { Docente } from "src/app/models/practicas_academicas/docente";
 import { NewNuxeoService } from "src/app/services/new_nuxeo.service";
 import { PracticasAcademicasService } from "src/app/services/practicas_academicas.service";
-import { SgaMidService } from "src/app/services/sga_mid.service";
 import { UserService } from "src/app/services/users.service";
 import { FORM_SOLICITUD_PRACTICAS } from "../nueva-solicitud/forms";
 import {
@@ -21,6 +20,7 @@ import { Location } from "@angular/common";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { ViewChild } from "@angular/core";
+import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_academica_mid.service";
 
 @Component({
   selector: "app-detalle-practica-academica",
@@ -61,7 +61,7 @@ export class DetallePracticaAcademicaComponent {
   constructor(
     private builder: FormBuilder,
     public translate: TranslateService,
-    private sgamidService: SgaMidService,
+    private sgaPracticaAcademicaMidService: SgaPracticaAcademicaMidService,
     private location: Location,
     private nuxeo: NewNuxeoService,
     private userService: UserService,
@@ -88,20 +88,18 @@ export class DetallePracticaAcademicaComponent {
     });
   }
 
-
   ngOnInit() {
     this.loadData().then((aux) => {
       this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
         const { process, id } = params.params;
         this.idPractica = id;
-
-        this.sgamidService
-          .get("practicas_academicas/" + id)
+        this.sgaPracticaAcademicaMidService
+          .get("practicas-academicas/" + id)
           .subscribe((practica) => {
             const r = <any>practica;
-            if (practica !== null && r.Type !== "error") {
-              if (r.Status === "200" && practica["Data"] !== null) {
-                this.InfoPracticasAcademicas = practica["Data"];
+            if (practica !== null && r.success !== false) {
+              if (r.status === 200 && practica["data"] !== null) {
+                this.InfoPracticasAcademicas = practica["data"];
                 this.InfoPracticasAcademicas.FechaHoraRegreso =
                   this.InfoPracticasAcademicas.FechaHoraRegreso.slice(0, -4);
                 this.InfoPracticasAcademicas.FechaHoraSalida =
@@ -123,8 +121,8 @@ export class DetallePracticaAcademicaComponent {
                 );
                 this.InfoDocentes = aux;
                 this.estadosSolicitudesDataSource.data =
-                  practica["Data"].Estados;
-                  this.estadosSolicitudesDataSource.paginator = this.paginator;
+                  practica["data"].Estados;
+                this.estadosSolicitudesDataSource.paginator = this.paginator;
 
                 this.inicializiarDatos();
                 this.loading = false;
@@ -156,20 +154,20 @@ export class DetallePracticaAcademicaComponent {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      this.sgamidService
-        .get("practicas_academicas/consultar_parametros/")
+      this.sgaPracticaAcademicaMidService
+        .get("practicas-academicas/parametros/")
         .subscribe(
           (res) => {
             const r = <any>res;
-            if (res !== null && r.Type !== "error") {
-              if (r.Status === "200" && res["Data"] !== null) {
-                this.periodos = res["Data"]["periodos"];
-                this.proyectos = res["Data"]["proyectos"];
-                this.tiposVehiculo = res["Data"]["vehiculos"];
+            if (res !== null && r.success !== false) {
+              if (r.status === 200 && res["data"] !== null) {
+                this.periodos = res["data"]["periodos"];
+                this.proyectos = res["data"]["proyectos"];
+                this.tiposVehiculo = res["data"]["vehiculos"];
                 this.espaciosAcademicos = [
                   { Nombre: "123 - Calculo Integral", Id: 1 },
                 ];
-                res["Data"]["estados"].forEach((estado: any) => {
+                res["data"]["estados"].forEach((estado: any) => {
                   if (
                     estado["Nombre"] !== "Radicada" &&
                     estado["Nombre"] !== "Ejecutada" &&
@@ -372,16 +370,16 @@ export class DetallePracticaAcademicaComponent {
 
   enviarInvitacion() {
     this.loading = true;
-    this.sgamidService
+      this.sgaPracticaAcademicaMidService
       .post(
-        "practicas_academicas/enviar_invitacion/",
+        "practicas-academicas/invitacion/",
         this.InfoPracticasAcademicas
       )
       .subscribe(
         (res: any) => {
-          const r = <any>res["Response"];
-          if (r !== null && r.Type !== "error") {
-            if (r.Code === "200" && r["Data"] !== null) {
+          if (res !== null && res.success !== false) {
+            const r = <any>res.data;
+            if (res.status === 200 && r["Data"] !== null) {
               this.loading = false;
               this.snackBar.open(
                 this.translate.instant(
@@ -417,7 +415,7 @@ export class DetallePracticaAcademicaComponent {
             footer:
               this.translate.instant("PRACTICAS_ACADEMICAS.enviar_invitacion") +
               "-" +
-              this.translate.instant("GLOBAL.invitaciones_no_enviadas"),
+              this.translate.instant("PRACTICAS_ACADEMICAS.invitaciones_no_enviadas"),
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
           });
         }
@@ -435,13 +433,13 @@ export class DetallePracticaAcademicaComponent {
         this.InfoRespuesta.EstadoTipoSolicitudIdAnterior =
           this.InfoPracticasAcademicas.EstadoTipoSolicitudId;
         this.loading = true;
-        this.sgamidService
-          .put("practicas_academicas/" + this.idPractica, this.InfoRespuesta)
+        this.sgaPracticaAcademicaMidService
+          .put("practicas-academicas/" + this.idPractica, this.InfoRespuesta)
           .subscribe(
             (res: any) => {
-              const r = <any>res["Response"]["Body"][0];
-              if (r !== null && r.Type !== "error") {
-                if (r.Status === "200" && r["Data"] !== null) {
+              if (res !== null && res.success !== false) {
+                const r = <any>res.data;
+                if (res.status === 200 && r["Data"] !== null) {
                   this.ngOnInit();
 
                   this.practicasService.clearCache();
@@ -544,14 +542,13 @@ export class DetallePracticaAcademicaComponent {
         .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
     this.InfoPracticasAcademicas.Comentario = "";
     this.InfoPracticasAcademicas.Estados = [];
-
-    this.sgamidService
-      .put("practicas_academicas", this.InfoPracticasAcademicas)
+    this.sgaPracticaAcademicaMidService
+      .put("practicas-academicas", this.InfoPracticasAcademicas)
       .subscribe(
         (res: any) => {
-          const r = <any>res["Response"]["Body"][0];
-          if (r !== null && r.Type !== "error") {
-            if (r.Status === "200" && r["Data"] !== null) {
+          if (res !== null && res.success !== false) {
+            const r = <any>res.data;
+            if (res.status === 200 && r["Data"] !== null) {
               this.ngOnInit();
               this.FormPracticasAcademicas.campos.forEach((campo: any) => {
                 campo.deshabilitar = true;
