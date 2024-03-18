@@ -10,4 +10,5 @@ export const environment = {
   //SGA_MID_SERVICE: 'http://localhost:8119/v1/',
   SGA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8119/v1/",
   DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
+  SGA_PRACTICA_ACADEMICA_MID: 'http://localhost:8096/v1/',
 };
