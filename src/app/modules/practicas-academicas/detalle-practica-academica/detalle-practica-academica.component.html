@@ -1,4 +1,8 @@
-<mat-spinner *ngIf="loading" class="spinner mt-10 m-auto" diameter="50"></mat-spinner>
+<mat-spinner
+  *ngIf="loading"
+  class="spinner mt-10 m-auto"
+  diameter="50"
+></mat-spinner>
 <div class="container mt-10" *ngIf="!loading">
   <mat-card>
     <mat-card-header>
@@ -28,7 +32,6 @@
           <div class="flex-auto px-2 py-1 mr-1 rounded-md text-base">
             {{ "PRACTICAS_ACADEMICAS.documentos" | translate }}
           </div>
-          
         </div>
         <div class="px-2 py-4 bg-white flex flex-wrap">
           <ngx-download-file-nuxeo
@@ -162,7 +165,6 @@
         >
         </ngx-dinamicform>
       </div>
-
       <div
         *ngIf="estado == 'Acta aprobada' && !['invitation'].includes(process)"
       >
@@ -174,6 +176,7 @@
         >
         </ngx-dinamicform>
       </div>
+
     </mat-card-content>
     <mat-card-actions class="flex justify-center">
       <button
