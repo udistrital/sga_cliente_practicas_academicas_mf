@@ -10,7 +10,7 @@ Cliente para la gestión de practicas academicas, parte del Sistema de Gestión 
   - Incluye Animations, Common, Compiler, Core, Forms, Platform-Browser, Platform-Browser-Dynamic, Router
 - [Angular Material](https://material.angular.io/) 16.2.14
 - [Angular CDK](https://material.angular.io/cdk/categories) 16.2.14
-- [ngx-translate](http://www.ngx-translate.com/) 15.0.0
+- [ngx-translate](https://github.com/ngx-translate/core) 15.0.0
   - Incluye ngx-translate Http Loader
 - [Lodash](https://lodash.com/docs/) 4.17.21
 - [Moment.js](https://momentjs.com/docs/) 2.30.1
