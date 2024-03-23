@@ -36,7 +36,6 @@ export class NuevaSolicitudComponent {
   espaciosAcademicos: any[] = [];
   tiposVehiculo: any[] = [];
   limpiar: boolean = true;
-  loading: boolean = false;
   llenarDocumentos: boolean = false;
   sub: any;
   idPractica: any;
@@ -67,7 +66,6 @@ export class NuevaSolicitudComponent {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.construirForm();
 
     this.loadData().then((aux) => {
@@ -170,8 +168,6 @@ export class NuevaSolicitudComponent {
         }
       });
     });
-
-    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -180,8 +176,6 @@ export class NuevaSolicitudComponent {
 
   cargarDocs(files: any) {
     return new Promise((resolve, reject) => {
-      this.loading = true;
-
       files.forEach((documento: any) => {
         this.nuxeo.getByUUID(documento.Enlace).subscribe((res) => {
           switch (documento.Nombre) {
@@ -252,8 +246,6 @@ export class NuevaSolicitudComponent {
           }
         });
       });
-      this.loading = false;
-
       resolve(true);
     });
   }
@@ -407,7 +399,6 @@ export class NuevaSolicitudComponent {
         )) {
           if (element.file instanceof File) {
             // Verificación explícita del tipo de archivo
-            this.loading = true;
             try {
               const fileBase64 = await this.nuxeo.fileToBase64(element.file);
               const file = {
@@ -430,7 +421,6 @@ export class NuevaSolicitudComponent {
           }
         }
         this.NuevaSolicitud.Documentos = files;
-        this.loading = false;
 
         this.NuevaSolicitud.FechaHoraRegreso =
           momentTimezone
@@ -455,7 +445,6 @@ export class NuevaSolicitudComponent {
         apiCall.subscribe(
           (res) => {
             const r = <any>res;
-            this.loading = false;
             if (r !== null && r.Response.Type !== "error") {
               this.practicasService.clearCache();
               const solicitudId = r.Response.Body[0].Solicitud.Id;
@@ -493,7 +482,6 @@ export class NuevaSolicitudComponent {
             }
           },
           (error: HttpErrorResponse) => {
-            this.loading = false;
             Swal.fire({
               title: `Error ${error.status}`,
               text: this.translate.instant("ERROR." + error.status),
@@ -535,7 +523,6 @@ export class NuevaSolicitudComponent {
   }
 
   getSeleccion(event: any) {
-    this.changeLoading(true);
     if (event.nombre === "Proyecto") {
       this.sgamidService
         .get(
@@ -601,12 +588,6 @@ export class NuevaSolicitudComponent {
       //   campoSalida.alerta = '';
       // }
     }
-
-    this.changeLoading(false);
-  }
-
-  changeLoading(event: any) {
-    this.loading = event;
   }
 
   loadDocentes(event: any) {

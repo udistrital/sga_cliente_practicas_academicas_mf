@@ -66,7 +66,6 @@ export class ListPracticasAcademicasComponent {
   }
   formFilter: boolean = false;
   processEncript: any;
-  loading: boolean;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -78,7 +77,6 @@ export class ListPracticasAcademicasComponent {
     public translate: TranslateService,
     private router: Router,
   ) {
-    this.loading = true;
     this.crearTabla();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.crearTabla();
@@ -198,7 +196,6 @@ export class ListPracticasAcademicasComponent {
 
 
   ngOnInit() {
-    this.loading = true;
     this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
       const { process } = params.params;
       this.process = atob(process);
@@ -233,11 +230,8 @@ export class ListPracticasAcademicasComponent {
             this.sortDataInicial();
             
           }, 50);
-          this.loading = false;
-          
         },
           (error: HttpErrorResponse) => {
-            this.loading = false;
             Swal.fire({
               icon: 'error',
               title: '404',
