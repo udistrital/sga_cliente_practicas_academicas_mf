@@ -1,5 +1,4 @@
-<mat-spinner *ngIf="loading" class="spinner mt-10 m-auto" diameter="50"></mat-spinner>
-<div class="container mt-10" *ngIf="!loading">
+<div class="container mt-10">
   <mat-card>
     <mat-card-header>
       <h1 class="m-auto text-lg font-bold">
@@ -9,7 +8,6 @@
 
     <mat-card-content>
       <ngx-solicitante-practica
-        (loading)="changeLoading($event)"
         [docentesSolicitud]="InfoDocentes"
         [process]="false"
       >

@@ -8,7 +8,7 @@ import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { environment } from "src/environments/environment";
 
@@ -38,6 +38,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 
+import { SpinnerUtilInterceptor, SpinnerUtilModule } from 'spinner-util';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -87,6 +88,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatSelectModule,
     MatIconModule,
     MatTooltipModule,
+    SpinnerUtilModule
   ],
   exports: [
     MatDialogModule,
@@ -94,6 +96,8 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
+
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerUtilInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
 })
