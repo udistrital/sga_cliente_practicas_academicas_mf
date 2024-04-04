@@ -51,7 +51,7 @@
     "enviar": "Send",
     "telefono": "Telephone number"
   },
-  "practicas_academicas": {
+  "PRACTICAS_ACADEMICAS": {
     "sin_nombre": "Nameless",
     "titulo": "Application for Academic Practice",
     "documentos": "Documents",
