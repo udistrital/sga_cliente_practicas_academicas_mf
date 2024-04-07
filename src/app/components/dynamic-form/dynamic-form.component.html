@@ -16,7 +16,7 @@
 >
   <!-- Form  basic -->
   <form class="form-horizontal" *ngSwitchCase="'basic'">
-    <fieldset>
+    <fieldset class="fieldset-contenedor">
       <legend align="{{ normalform.alineacion_titulo }}">
         <small>{{ normalform.titulo }}</small>
       </legend>
@@ -537,7 +537,7 @@
 
   <!-- Form  mini -->
   <form class="form-horizontal" *ngSwitchCase="'mini'">
-    <fieldset [ngClass]="{ fieldseter: !normalform.hidefield }">
+    <fieldset [ngClass]="{ fieldseter: !normalform.hidefield }" class="fieldset-contenedor">
       <legend align="{{ normalform.alineacion_titulo }}">
         <small>{{ normalform.titulo }}</small>
       </legend>
@@ -1082,7 +1082,7 @@
 
   <!-- Form  bySteps -->
   <form class="form-horizontal" *ngSwitchCase="'bySteps'">
-    <fieldset [ngClass]="{ fieldseter: !normalform.hidefield }">
+    <fieldset [ngClass]="{ fieldseter: !normalform.hidefield }" class="fieldset-contenedor">
       <legend align="{{ normalform.alineacion_titulo }}">
         <small>{{ normalform.titulo }}</small>
       </legend>
