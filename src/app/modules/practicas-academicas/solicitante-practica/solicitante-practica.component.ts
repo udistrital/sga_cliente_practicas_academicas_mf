@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { Docente } from "src/app/models/practicas_academicas/docente";
-import { SgaMidService } from "src/app/services/sga_mid.service";
 import { UserService } from "src/app/services/users.service";
 import { DOCENTE_PRACTICA } from "./form-docente-practica";
 import { MatTableDataSource } from "@angular/material/table";
@@ -16,6 +15,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import Swal from "sweetalert2";
+import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_academica_mid.service";
 
 @Component({
   selector: "ngx-solicitante-practica",
@@ -72,7 +72,7 @@ export class SolicitantePracticaComponent {
   constructor(
     private translate: TranslateService,
     private userService: UserService,
-    private sgamidService: SgaMidService,
+    private sgaPracticaAcademicaMidService: SgaPracticaAcademicaMidService,
     private snackBar: MatSnackBar
   ) {
     this.docenteSolicitante = DOCENTE_PRACTICA;
@@ -163,30 +163,30 @@ export class SolicitantePracticaComponent {
 
   loadData(): void {
     if (this.nuevaSolicitud && this.docentesSolicitud === undefined) {
-      this.sgamidService
+        this.sgaPracticaAcademicaMidService
         .get(
-          "practicas_academicas/consultar_solicitante/" + this.info_persona_id
+          "practicas-academicas/solicitantes/" + this.info_persona_id
         )
         .subscribe(
           (res) => {
-            const r = <any>res;
-            if (res !== null && r.Success !== "false") {
-              if (r.Status === "200" && res["Data"] !== null) {
-                if (res["Data"]["Correo"] === undefined) {
-                  if (res["Data"]["CorreoInstitucional"] !== undefined) {
-                    res["Data"]["Correo"] = res["Data"]["CorreoInstitucional"];
-                  } else if (res["Data"]["CorreoPersonal"] !== undefined) {
-                    res["Data"]["Correo"] = res["Data"]["CorreoPersonal"];
+            if (res !== null && res.success !== false) {
+              if (res.status === 200 && res["data"] !== null) {
+                let docente = res.data;
+                if (docente["Correo"] === undefined) {
+                  if (docente["CorreoInstitucional"] !== undefined) {
+                    docente["Correo"] = docente["CorreoInstitucional"];
+                  } else if (docente["CorreoPersonal"] !== undefined) {
+                    docente["Correo"] = docente["CorreoPersonal"];
                   }
                 }
 
-                if (res["Data"]["Telefono"] === undefined) {
-                  if (res["Data"]["Celular"] !== undefined) {
-                    res["Data"]["Telefono"] = res["Data"]["Celular"];
+                if (docente["Telefono"] === undefined) {
+                  if (docente["Celular"] !== undefined) {
+                    docente["Telefono"] = docente["Celular"];
                   }
                 }
 
-                this.DocentePractica.push(res["Data"]);
+                this.DocentePractica.push(docente);
                 this.dataSource.data = this.DocentePractica;
                 this.docentes.emit(this.DocentePractica);
               }
@@ -247,32 +247,32 @@ export class SolicitantePracticaComponent {
       event.data.docDocente = event.data.docDocente.trim();
       if (regex.test(event.data.docDocente) === true) {
         this.loading.emit(true);
-        this.sgamidService
+        //CAMBIAR
+        this.sgaPracticaAcademicaMidService
           .get(
-            "practicas_academicas/consultar_colaborador/" +
+            "practicas-academicas/colaboradores/" +
               event.data.docDocente
           )
           .subscribe(
             (res) => {
-              const r = <any>res;
-              if (res !== null && r.Success !== false) {
-                if (r.Status === "200" && res["Data"] !== null) {
-                  if (res["Data"]["Correo"] === undefined) {
-                    if (res["Data"]["CorreoInstitucional"] !== undefined) {
-                      res["Data"]["Correo"] =
-                        res["Data"]["CorreoInstitucional"];
-                    } else if (res["Data"]["CorreoPersonal"] !== undefined) {
-                      res["Data"]["Correo"] = res["Data"]["CorreoPersonal"];
+              if (res !== null && res.success !== false) {
+                if (res.status === 200 && res["data"] !== null) {
+                  if (res["data"]["Correo"] === undefined) {
+                    if (res["data"]["CorreoInstitucional"] !== undefined) {
+                      res["data"]["Correo"] =
+                        res["data"]["CorreoInstitucional"];
+                    } else if (res["data"]["CorreoPersonal"] !== undefined) {
+                      res["data"]["Correo"] = res["data"]["CorreoPersonal"];
                     }
                   }
 
-                  if (res["Data"]["Telefono"] === undefined) {
-                    if (res["Data"]["Celular"] !== undefined) {
-                      res["Data"]["Telefono"] = res["Data"]["Celular"];
+                  if (res["data"]["Telefono"] === undefined) {
+                    if (res["data"]["Celular"] !== undefined) {
+                      res["data"]["Telefono"] = res["data"]["Celular"];
                     }
                   }
 
-                  this.docenteColaborador = res["Data"];
+                  this.docenteColaborador = res["data"];
                   this.docenteColaborador.Vinculacion =
                     this.docenteColaborador.TipoVinculacionId.Nombre;
                   this.snackBar.open(
@@ -285,7 +285,6 @@ export class SolicitantePracticaComponent {
                       panelClass: ["success-snackbar"],
                     }
                   );
-                  // this.popUpManager.showToast("success", this.translate.instant('PRACTICAS_ACADEMICAS.docente_encontrado'), this.translate.instant('GLOBAL.operacion_exitosa'))
                 }
               } else {
                 this.docenteColaborador = undefined;
@@ -300,7 +299,7 @@ export class SolicitantePracticaComponent {
                   text:
                     this.translate.instant(
                       "PRACTICAS_ACADEMICAS.error_docente_no_existe"
-                    ) +
+                    ) + 
                     event.data.docDocente +
                     ".",
                   confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
@@ -308,6 +307,7 @@ export class SolicitantePracticaComponent {
               }
             },
             (error: HttpErrorResponse) => {
+              console.log(error)
               Swal.fire({
                 icon: "error",
                 title: error.status + "",
