@@ -8,7 +8,6 @@ import { Docente } from "src/app/models/practicas_academicas/docente";
 import { NewNuxeoService } from "src/app/services/new_nuxeo.service";
 import { UserService } from "src/app/services/users.service";
 import { PracticasAcademicasService } from "src/app/services/practicas_academicas.service";
-import { SgaMidService } from "src/app/services/sga_mid.service";
 import { SolicitudPracticaAcademica } from "src/app/models/practicas_academicas/solicitud_practica_academica";
 
 import { FORM_SOLICITUD_PRACTICAS, FORM_SOPORTES_DOCUMENTALES } from "./forms";
@@ -17,6 +16,7 @@ import * as moment from "moment";
 import * as momentTimezone from "moment-timezone";
 import Swal from "sweetalert2";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_academica_mid.service";
 
 @Component({
   selector: "app-nueva-solicitud",
@@ -53,7 +53,7 @@ export class NuevaSolicitudComponent {
     private _Activatedroute: ActivatedRoute,
     private location: Location,
     private router: Router,
-    private sgamidService: SgaMidService,
+    private sgaPracticaAcademicaMidService: SgaPracticaAcademicaMidService,
     private snackBar: MatSnackBar
   ) {
     this.FormSoporteDocumentales = FORM_SOPORTES_DOCUMENTALES;
@@ -72,17 +72,16 @@ export class NuevaSolicitudComponent {
       this.sub = this._Activatedroute.paramMap.subscribe((params: any) => {
         const { process, id } = params.params;
         this.idPractica = id;
-
         if (id) {
           this.process = atob(process);
           if (this.process == "process") {
-            this.sgamidService
-              .get("practicas_academicas/" + id)
+            this.sgaPracticaAcademicaMidService
+              .get("practicas-academicas/" + id)
               .subscribe(async (practica) => {
-                const r = <any>practica;
-                if (practica !== null && r.Type !== "error") {
-                  if (r.Status === "200" && practica["Data"] !== null) {
-                    this.InfoPracticasAcademicas = practica["Data"];
+                if (practica !== null && practica.success !== false) {
+                  const r = <any>practica;
+                  if (r.status === 200 && practica["data"] !== null) {
+                    this.InfoPracticasAcademicas = practica["data"];
                     this.InfoPracticasAcademicas.FechaHoraRegreso =
                       this.InfoPracticasAcademicas.FechaHoraRegreso.slice(
                         0,
@@ -163,8 +162,6 @@ export class NuevaSolicitudComponent {
               ),
             };
           }
-        } else {
-          this.InfoDocentes = [];
         }
       });
     });
@@ -280,16 +277,16 @@ export class NuevaSolicitudComponent {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      this.sgamidService
-        .get("practicas_academicas/consultar_parametros/")
+      this.sgaPracticaAcademicaMidService
+        .get("practicas-academicas/parametros/")
         .subscribe(
           (res) => {
-            const r = <any>res;
-            if (res !== null && r.Type !== "error") {
-              if (r.Status === "200" && res["Data"] !== null) {
-                this.periodos = res["Data"]["periodos"];
-                this.proyectos = res["Data"]["proyectos"];
-                this.tiposVehiculo = res["Data"]["vehiculos"];
+            if (res !== null && res.success !== false) {
+              const r = <any>res;
+              if (r.status === 200 && res["data"] !== null) {
+                this.periodos = res["data"]["periodos"];
+                this.proyectos = res["data"]["proyectos"];
+                this.tiposVehiculo = res["data"]["vehiculos"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("Periodo")
@@ -370,104 +367,125 @@ export class NuevaSolicitudComponent {
   }
 
   async enviarSolicitud(event: any) {
-    this.InfoPracticasAcademicas = event.data.InfoPracticasAcademicas;
-    if (event.valid) {
-      if (event.nombre === "SOLICITUD_PRACTICAS") {
-        this.NuevaSolicitud = <SolicitudPracticaAcademica>(
-          event.data.InfoPracticasAcademicas
-        );
-        let docenteAux: Array<Docente> = [];
-        this.InfoDocentes.forEach((docente: any) => {
-          if (docente["PuedeBorrar"]) {
-            docenteAux.push(docente);
-          } else {
-            this.NuevaSolicitud.SolicitanteId = docente.Id;
-            this.NuevaSolicitud.DocenteSolicitante = docente;
-          }
-        });
+    try {
+      this.InfoPracticasAcademicas = event.data.InfoPracticasAcademicas;
+      if (event.valid) {
+        if (event.nombre === "SOLICITUD_PRACTICAS") {
+          this.NuevaSolicitud = <SolicitudPracticaAcademica>(
+            event.data.InfoPracticasAcademicas
+          );
+          let docenteAux: Array<Docente> = [];
+          this.InfoDocentes.forEach((docente: any) => {
+            if (docente["PuedeBorrar"]) {
+              docenteAux.push(docente);
+            } else {
+              this.NuevaSolicitud.SolicitanteId = docente.Id;
+              this.NuevaSolicitud.DocenteSolicitante = docente;
+            }
+          });
 
-        this.NuevaSolicitud.DocentesInvitados = docenteAux;
-        this.FormPracticasAcademicas.btn = null;
-        this.llenarDocumentos = true;
-      }
+          this.NuevaSolicitud.DocentesInvitados = docenteAux;
+          this.FormPracticasAcademicas.btn = null;
+          this.llenarDocumentos = true;
+        }
 
-      if (event.nombre === "SOPORTES_DOCUMENTALES") {
-        let files: Array<any> = [];
-        this.InfoDocumentos = event.data.documental;
-        for (const element of Object.values(
-          this.InfoDocumentos as Record<string, any>
-        )) {
-          if (element.file instanceof File) {
-            // Verificación explícita del tipo de archivo
-            try {
-              const fileBase64 = await this.nuxeo.fileToBase64(element.file);
-              const file = {
-                file: fileBase64,
-                IdTipoDocumento: element.IdDocumento,
-                metadatos: {
-                  NombreArchivo: element.nombre,
-                  Tipo: "Archivo",
-                  Observaciones: element.nombre,
-                  "dc:title": element.nombre,
-                },
-                descripcion: element.nombre,
-                nombre: element.nombre,
-                key: "Documento",
-              };
-              files.push(file);
-            } catch (error) {
-              console.error("Error al convertir el archivo a Base64:", error);
+        if (event.nombre === "SOPORTES_DOCUMENTALES") {
+          let files: Array<any> = [];
+          this.InfoDocumentos = event.data.documental;
+          for (const element of Object.values(
+            this.InfoDocumentos as Record<string, any>
+          )) {
+            if (element.file instanceof File) {
+              // Verificación explícita del tipo de archivo
+              try {
+                const fileBase64 = await this.nuxeo.fileToBase64(element.file);
+                const file = {
+                  file: fileBase64,
+                  IdTipoDocumento: element.IdDocumento,
+                  metadatos: {
+                    NombreArchivo: element.nombre,
+                    Tipo: "Archivo",
+                    Observaciones: element.nombre,
+                    "dc:title": element.nombre,
+                  },
+                  descripcion: element.nombre,
+                  nombre: element.nombre,
+                  key: "Documento",
+                };
+                files.push(file);
+              } catch (error) {
+                console.error("Error al convertir el archivo a Base64:", error);
+              }
             }
           }
-        }
-        this.NuevaSolicitud.Documentos = files;
+          this.NuevaSolicitud.Documentos = files;
 
-        this.NuevaSolicitud.FechaHoraRegreso =
-          momentTimezone
-            .tz(this.NuevaSolicitud.FechaHoraRegreso, "America/Bogota")
-            .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
-        this.NuevaSolicitud.FechaHoraSalida =
-          momentTimezone
-            .tz(this.NuevaSolicitud.FechaHoraSalida, "America/Bogota")
-            .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
+          this.NuevaSolicitud.FechaHoraRegreso =
+            momentTimezone
+              .tz(this.NuevaSolicitud.FechaHoraRegreso, "America/Bogota")
+              .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
+          this.NuevaSolicitud.FechaHoraSalida =
+            momentTimezone
+              .tz(this.NuevaSolicitud.FechaHoraSalida, "America/Bogota")
+              .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
 
-        this.NuevaSolicitud.FechaRadicacion = moment().format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
+          this.NuevaSolicitud.FechaRadicacion = moment().format(
+            "YYYY-MM-DD HH:mm:ss"
+          );
+          const apiCall = this.idPractica
+            ? this.sgaPracticaAcademicaMidService.put(
+                "practicas-academicas",
+                this.NuevaSolicitud
+              )
+            : this.sgaPracticaAcademicaMidService.post(
+                "practicas-academicas/",
+                this.NuevaSolicitud
+              );
 
-        const apiCall = this.idPractica
-          ? this.sgamidService.put("practicas_academicas", this.NuevaSolicitud)
-          : this.sgamidService.post(
-              "practicas_academicas/",
-              this.NuevaSolicitud
-            );
+          apiCall.subscribe(
+            (res: any) => {
+                if (res !== null && res.success !== false) {
+                const r = <any>res.data[0];
+                this.practicasService.clearCache();
+                const solicitudId = r.Solicitud.Id;
+                Swal.fire({
+                  title:
+                    this.translate.instant("GLOBAL.info_estado") +
+                    " " +
+                    this.translate.instant(
+                      "PRACTICAS_ACADEMICAS.solicitud_creada"
+                    ) +
+                    solicitudId,
 
-        apiCall.subscribe(
-          (res) => {
-            const r = <any>res;
-            if (r !== null && r.Response.Type !== "error") {
-              this.practicasService.clearCache();
-              const solicitudId = r.Response.Body[0].Solicitud.Id;
-              Swal.fire({
-                title:
-                  this.translate.instant("GLOBAL.info_estado") +
-                  " " +
-                  this.translate.instant(
-                    "PRACTICAS_ACADEMICAS.solicitud_creada"
-                  )+ solicitudId,
-                
-                icon: "success",
-                confirmButtonText: "Cerrar",
-              }).then(() => {
-                this.router.navigate([
-                  `/practicas-academicas/lista-practicas/${btoa("process")}`,
-                ]);
-              });
-            } else {
-              Swal.fire({
-                title: this.translate.instant(
-                  "GLOBAL.error_practicas_academicas"
-                ),
+                  icon: "success",
+                  confirmButtonText: "Cerrar",
+                }).then(() => {
+                  this.router.navigate([
+                    `/practicas-academicas/lista-practicas/${btoa("process")}`,
+                  ]);
+                });
+              } else {
+                Swal.fire({
+                  title: this.translate.instant(
+                    "GLOBAL.error_practicas_academicas"
+                  ),
+                  icon: "error",
+                  confirmButtonText: "Reintentar",
+                  cancelButtonText: "Salir",
+                  showCancelButton: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // Código para reintentar la acción
+                  } else {
+                    this.router.navigate(["/practicas-academicas"]);
+                  }
+                });
+              }
+            },
+            (error: HttpErrorResponse) => {
+                Swal.fire({
+                title: `Error ${error.status}`,
+                text: this.translate.instant("ERROR." + error.status),
                 icon: "error",
                 confirmButtonText: "Reintentar",
                 cancelButtonText: "Salir",
@@ -480,25 +498,20 @@ export class NuevaSolicitudComponent {
                 }
               });
             }
-          },
-          (error: HttpErrorResponse) => {
-            Swal.fire({
-              title: `Error ${error.status}`,
-              text: this.translate.instant("ERROR." + error.status),
-              icon: "error",
-              confirmButtonText: "Reintentar",
-              cancelButtonText: "Salir",
-              showCancelButton: true,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Código para reintentar la acción
-              } else {
-                this.router.navigate(["/practicas-academicas"]);
-              }
-            });
-          }
-        );
+          );
+        }
       }
+    } catch (error) {
+      this.snackBar.open(
+        this.translate.instant("ERROR." + error),
+        this.translate.instant("GLOBAL.aceptar"),
+        {
+          duration: 5000,
+          panelClass: ["error-snackbar"],
+          horizontalPosition: "right",
+          verticalPosition: "top",
+        }
+      );
     }
   }
 
@@ -524,17 +537,14 @@ export class NuevaSolicitudComponent {
 
   getSeleccion(event: any) {
     if (event.nombre === "Proyecto") {
-      this.sgamidService
-        .get(
-          "practicas_academicas/consultar_espacios_academicos/" +
-            this.info_persona_id
-        )
+      this.sgaPracticaAcademicaMidService
+        .get("practicas-academicas/espacios-academicos/" + this.info_persona_id)
         .subscribe(
           (res) => {
-            const r = <any>res;
-            if (res !== null && r.Type !== "error") {
-              if (r.Status === "200" && res["Data"] !== null) {
-                this.espaciosAcademicos = res["Data"];
+            if (res !== null && res.success !== false) {
+              const r = <any>res.data;
+              if (res.status === 200 && res["data"] !== null) {
+                this.espaciosAcademicos = res["data"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("EspacioAcademico")
