@@ -14,7 +14,8 @@ import { FORM_SOLICITUD_PRACTICAS, FORM_SOPORTES_DOCUMENTALES } from "./forms";
 
 import * as moment from "moment";
 import * as momentTimezone from "moment-timezone";
-import Swal from "sweetalert2";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_academica_mid.service";
 
@@ -484,7 +485,7 @@ export class NuevaSolicitudComponent {
                   confirmButtonText: "Reintentar",
                   cancelButtonText: "Salir",
                   showCancelButton: true,
-                }).then((result) => {
+                }).then((result: any) => {
                   if (result.isConfirmed) {
                     // Código para reintentar la acción
                   } else {
@@ -502,7 +503,7 @@ export class NuevaSolicitudComponent {
                 confirmButtonText: "Reintentar",
                 cancelButtonText: "Salir",
                 showCancelButton: true,
-              }).then((result) => {
+              }).then((result: any) => {
                 if (result.isConfirmed) {
                   // Código para reintentar la acción
                 } else {
@@ -542,7 +543,7 @@ export class NuevaSolicitudComponent {
       icon: "info",
       showCancelButton: true,
     };
-    Swal.fire(opt).then((result) => {
+    Swal.fire(opt).then((result: any) => {
       if (result) {
       }
     });

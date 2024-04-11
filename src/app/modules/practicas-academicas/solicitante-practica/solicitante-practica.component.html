@@ -1,10 +1,12 @@
-<form class="form-horizontal">
-  <fieldset [ngClass]="{ fieldseter: true }">
-    <legend>
-      &nbsp;
-      <small>{{ "PRACTICAS_ACADEMICAS.solicitante" | translate }}</small>
-    </legend>
-    <div class="">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ "PRACTICAS_ACADEMICAS.solicitante" | translate }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <br />
+    <div class="mat-elevation-z8">
       <!-- TABLA -->
       <mat-table [dataSource]="dataSource" matSort>
         <!-- Columna nombre -->
@@ -39,7 +41,7 @@
         <!-- Telefono Column -->
         <ng-container matColumnDef="Telefono">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ "SOLICITUDES.telefono" | translate}}
+            {{ "SOLICITUDES.telefono" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.Telefono }}
@@ -50,7 +52,7 @@
           <mat-header-cell *matHeaderCellDef>
             <button
               mat-icon-button
-              color="primary"
+              color="accent"
               (click)="onCreateColaborador($event)"
             >
               <mat-icon>add</mat-icon>
@@ -59,9 +61,8 @@
           <mat-cell *matCellDef="let element; let i = index">
             <!-- Botón Eliminar -->
             <button
-              class="transition ease-in-out duration-100 inline-flex items-center justify-center rounded-full text-primary-5 hover:text-primary hover:scale-110"
               mat-icon-button
-              color="primary"
+              color="accent"
               (click)="onDeleteColaborador(element)"
             >
               <mat-icon>delete</mat-icon>
@@ -73,8 +74,8 @@
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
     </div>
-  </fieldset>
-</form>
+  </mat-card-content>
+</mat-card>
 
 <ngx-dinamicform
   [normalform]="docenteSolicitante"

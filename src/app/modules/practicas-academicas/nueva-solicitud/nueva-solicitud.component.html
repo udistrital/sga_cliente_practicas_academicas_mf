@@ -1,4 +1,5 @@
 <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
 <div class="container mt-10">
   <mat-card *ngIf="!loading">
     <mat-card-header>
@@ -72,7 +73,8 @@
     <mat-card-footer>
       <mat-card-actions class="flex justify-center">
         <button
-          class="bg-primary-900 p-2 rounded text-white hover:bg-primary"
+          mat-flat-button
+          color="primary"
           type="button"
           (click)="goback()"
         >

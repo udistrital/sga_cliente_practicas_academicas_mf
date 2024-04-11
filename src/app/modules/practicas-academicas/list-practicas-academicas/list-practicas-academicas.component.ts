@@ -6,7 +6,8 @@ import * as moment from "moment";
 import { ImplicitAutenticationService } from "src/app/services/implicit_autentication.service";
 import { PracticasAcademicasService } from "src/app/services/practicas_academicas.service";
 import { UserService } from "src/app/services/users.service";
-import Swal from "sweetalert2";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { ViewChild } from "@angular/core";
@@ -44,7 +45,7 @@ export class ListPracticasAcademicasComponent {
         etiqueta: "input",
         tipo: "number",
         nombre: "Numero",
-        claseGrid: "col-12 col-sm-5",
+        claseGrid: "form-col1",
         label: this.translate.instant("GLOBAL.numero"),
         requerido: false,
         minimo: 0,
@@ -54,17 +55,17 @@ export class ListPracticasAcademicasComponent {
         etiqueta: "mat-date",
         tipo: "datetime-local",
         nombre: "FechaSolicitud",
-        claseGrid: "col-12 col-sm-5",
+        claseGrid: "form-col1",
         label: this.translate.instant("GLOBAL.fecha"),
         requerido: false,
         deshabilitar: false,
       },
       {
         etiqueta: "button",
-        claseGrid: "col-lg-2 col-md-2",
+        claseGrid: "form-col2",
         nombre: "Filter",
-        claseBoton: "btn btn-primary btn-sm",
-        icono: "fa fa-search",
+        claseBoton: "",
+        icono: "search",
         label_i18n: "buscar",
       },
     ],

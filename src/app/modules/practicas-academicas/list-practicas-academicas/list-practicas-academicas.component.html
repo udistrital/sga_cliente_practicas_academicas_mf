@@ -1,85 +1,92 @@
-<mat-spinner *ngIf="loading" class="mt-14 spinner m-auto" diameter="50"></mat-spinner>
-<div *ngIf="!loading" class="container mx-auto mt-8">
-    <mat-card-header class=" px-4 py-2 ">
-      <h1 class="text-lg font-bold m-auto">{{ "PRACTICAS_ACADEMICAS.lista_titulo" | translate }}</h1>
-    </mat-card-header>
+<mat-spinner
+  *ngIf="loading"
+  class="mt-14 spinner m-auto"
+  diameter="50"
+></mat-spinner>
 
-    <div class="space-y-2">
-      <ngx-dinamicform
-        *ngIf="process === 'list'"
-        [normalform]="filterListado"
-        [modeloData]="InfoPracticasAcademicas"
-        (resultAux)="filterPracticas($event)"
-      ></ngx-dinamicform>
+<mat-card *ngIf="!loading">
+  <mat-card-header>
+    <mat-card-title>
+      {{ "PRACTICAS_ACADEMICAS.lista_titulo" | translate }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ngx-dinamicform
+      *ngIf="process === 'list'"
+      [normalform]="filterListado"
+      [modeloData]="InfoPracticasAcademicas"
+      (resultAux)="filterPracticas($event)"
+    ></ngx-dinamicform>
+    <br />
 
-      <div class="mat-elevation-z8 ">
-        <mat-form-field class="w-full">
-          <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
-        </mat-form-field>
-        <mat-table
-          matSort
-          [dataSource]="dataSource"
-        >
-          <!-- Columna ID -->
-          <ng-container matColumnDef="Id" >
-            <mat-header-cell *matHeaderCellDef mat-sort-header>
-              {{ translate.instant("SOLICITUDES.numero") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.Id }}</mat-cell>
-          </ng-container>
+    <div class="mat-elevation-z8">
+      <mat-form-field style="width: 100%" *ngIf="process != 'list'">
+        <mat-label>{{ translate.instant("GLOBAL.buscar") }}</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder= />
+      </mat-form-field>
+      <mat-table matSort [dataSource]="dataSource">
+        <!-- Columna ID -->
+        <ng-container matColumnDef="Id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ translate.instant("SOLICITUDES.numero") }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.Id }}</mat-cell>
+        </ng-container>
 
-          <!-- Columna Fecha de Radicación -->
-          <ng-container matColumnDef="FechaRadicacion">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>
-              {{ translate.instant("SOLICITUDES.fecha") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              {{ element.FechaRadicacion | date : "dd/MM/yyyy" }}
-            </mat-cell>
-          </ng-container>
+        <!-- Columna Fecha de Radicación -->
+        <ng-container matColumnDef="FechaRadicacion">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ translate.instant("SOLICITUDES.fecha") }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.FechaRadicacion | date : "dd/MM/yyyy" }}
+          </mat-cell>
+        </ng-container>
 
-          <!-- Columna Tipo de Solicitud -->
-          <ng-container matColumnDef="TipoSolicitud">
-            <mat-header-cell *matHeaderCellDef>
-              {{ translate.instant("SOLICITUDES.tipo") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              {{ element.TipoSolicitud.Nombre }}
-            </mat-cell>
-          </ng-container>
+        <!-- Columna Tipo de Solicitud -->
+        <ng-container matColumnDef="TipoSolicitud">
+          <mat-header-cell *matHeaderCellDef>
+            {{ translate.instant("SOLICITUDES.tipo") }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.TipoSolicitud.Nombre }}
+          </mat-cell>
+        </ng-container>
 
-          <!-- Columna Estado ID -->
-          <ng-container matColumnDef="EstadoId">
-            <mat-header-cell *matHeaderCellDef>
-              {{ translate.instant("SOLICITUDES.estado") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              {{ element.EstadoId.Nombre }}
-            </mat-cell>
-          </ng-container>
+        <!-- Columna Estado ID -->
+        <ng-container matColumnDef="EstadoId">
+          <mat-header-cell *matHeaderCellDef>
+            {{ translate.instant("SOLICITUDES.estado") }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.EstadoId.Nombre }}
+          </mat-cell>
+        </ng-container>
 
-          <!-- Columna de acciones -->
-          <ng-container matColumnDef="Acciones">
-            <mat-header-cell *matHeaderCellDef>
-              {{ translate.instant("GLOBAL.acciones") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                color="primary"
-                (click)="verPractica(element)"
-              >
-                <mat-icon>visibility</mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
+        <!-- Columna de acciones -->
+        <ng-container matColumnDef="Acciones">
+          <mat-header-cell *matHeaderCellDef>
+            {{ translate.instant("GLOBAL.acciones") }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="verPractica(element)"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
 
-          <!-- Fila de Encabezado y Fila de Datos -->
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-        </mat-table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      </div>
+        <!-- Fila de Encabezado y Fila de Datos -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
     </div>
-</div>
-
+  </mat-card-content>
+</mat-card>
