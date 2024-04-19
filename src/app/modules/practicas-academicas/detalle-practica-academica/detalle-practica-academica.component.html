@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="row col-12" *ngIf="['news', 'process'].includes(process)">
+      <div class="row col-12 labels-contenedor" *ngIf="['news', 'process'].includes(process)">
         <div class="row col-6">
           <div class="col-6">
             <label>{{
@@ -78,7 +78,8 @@
           </mat-expansion-panel-header>
           <br />
 
-          <mat-table
+          <div class="tabla-contenedor">
+            <mat-table
             [dataSource]="estadosSolicitudesDataSource"
             class="mat-elevation-z8"
           >
@@ -137,6 +138,7 @@
             [pageSizeOptions]="[5, 10, 20]"
             showFirstLastButtons
           ></mat-paginator>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
 

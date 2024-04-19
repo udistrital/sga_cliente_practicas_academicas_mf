@@ -16,7 +16,8 @@
         <mat-form-field class="w-full">
           <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
         </mat-form-field>
-        <mat-table
+        <div class="tabla-contenedor">
+          <mat-table
           matSort
           [dataSource]="dataSource"
         >
@@ -79,6 +80,7 @@
           <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
       </div>
     </div>
 </div>

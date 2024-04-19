@@ -1,0 +1,14 @@
+.tabla-contenedor {
+    overflow: overlay;
+}
+
+@media (max-width: 750px) {
+    .labels-contenedor {
+      flex-direction: column;
+    }
+
+    .labels-contenedor .row.col-6{
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

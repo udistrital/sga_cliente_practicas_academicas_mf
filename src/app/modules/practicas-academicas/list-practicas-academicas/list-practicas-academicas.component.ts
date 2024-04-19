@@ -15,7 +15,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-list-practicas-academicas',
-  templateUrl: './list-practicas-academicas.component.html'
+  templateUrl: './list-practicas-academicas.component.html',
+  styleUrls: ["./list-practicas-academicas.component.scss"]
 })
 export class ListPracticasAcademicasComponent {
 
