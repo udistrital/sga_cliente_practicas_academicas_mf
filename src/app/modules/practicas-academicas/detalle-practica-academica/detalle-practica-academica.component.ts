@@ -48,7 +48,6 @@ export class DetallePracticaAcademicaComponent {
   Legalizacion: any;
   process: string = "";
   sub: any;
-  loading: boolean;
   displayedColumns: string[] = [
     "EstadoTipoSolicitudId",
     "FechaCreacion",
@@ -69,8 +68,6 @@ export class DetallePracticaAcademicaComponent {
     private _Activatedroute: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
-    this.loading = true;
-
     this.formDocente = this.builder.group({
       NombreDocente: [{ value: "", disabled: true }],
       NumeroDocumento: [{ value: "", disabled: true }],
@@ -125,7 +122,6 @@ export class DetallePracticaAcademicaComponent {
                 this.estadosSolicitudesDataSource.paginator = this.paginator;
 
                 this.inicializiarDatos();
-                this.loading = false;
               }
             }
           });
@@ -369,7 +365,6 @@ export class DetallePracticaAcademicaComponent {
   }
 
   enviarInvitacion() {
-    this.loading = true;
       this.sgaPracticaAcademicaMidService
       .post(
         "practicas-academicas/invitacion/",
@@ -380,7 +375,6 @@ export class DetallePracticaAcademicaComponent {
           if (res !== null && res.success !== false) {
             const r = <any>res.data;
             if (res.status === 200 && r["Data"] !== null) {
-              this.loading = false;
               this.snackBar.open(
                 this.translate.instant(
                   "PRACTICAS_ACADEMICAS.invitaciones_enviadas"
@@ -393,7 +387,6 @@ export class DetallePracticaAcademicaComponent {
               );
             }
           } else {
-            this.loading = false;
             this.snackBar.open(
               this.translate.instant(
                 "PRACTICAS_ACADEMICAS.invitaciones_no_enviadas"
@@ -407,7 +400,6 @@ export class DetallePracticaAcademicaComponent {
           }
         },
         (error: HttpErrorResponse) => {
-          this.loading = false;
           Swal.fire({
             icon: "error",
             title: error.status + "",
@@ -432,7 +424,6 @@ export class DetallePracticaAcademicaComponent {
             .format("YYYY-MM-DD HH:mm:ss") + " +0000 +0000";
         this.InfoRespuesta.EstadoTipoSolicitudIdAnterior =
           this.InfoPracticasAcademicas.EstadoTipoSolicitudId;
-        this.loading = true;
         this.sgaPracticaAcademicaMidService
           .put("practicas-academicas/" + this.idPractica, this.InfoRespuesta)
           .subscribe(
@@ -443,7 +434,6 @@ export class DetallePracticaAcademicaComponent {
                   this.ngOnInit();
 
                   this.practicasService.clearCache();
-                  this.loading = false;
                   this.snackBar.open(
                     this.translate.instant("GLOBAL.info_estado"),
                     this.translate.instant("GLOBAL.confirmarActualizar"),
@@ -454,7 +444,6 @@ export class DetallePracticaAcademicaComponent {
                   );
                 }
               } else {
-                this.loading = false;
                 this.snackBar.open(
                   this.translate.instant("GLOBAL.error_practicas_academicas"),
                   "X",
@@ -482,10 +471,6 @@ export class DetallePracticaAcademicaComponent {
     }
   }
 
-  changeLoading(event: any) {
-    this.loading = event;
-  }
-
   async enviarLegalizacion(event: any) {
     let files: Array<any> = [];
     this.Legalizacion = event.data.documental;
@@ -493,7 +478,6 @@ export class DetallePracticaAcademicaComponent {
       if (Object.prototype.hasOwnProperty.call(this.Legalizacion, key)) {
         const element = this.Legalizacion[key];
         if (typeof element.file !== "undefined" && element.file !== null) {
-          this.loading = true;
           const file = {
             file: await this.nuxeo.fileToBase64(element.file),
             IdTipoDocumento: element.IdDocumento,
@@ -559,7 +543,6 @@ export class DetallePracticaAcademicaComponent {
                 }
               );
               this.practicasService.clearCache();
-              this.loading = false;
               this.snackBar.open(
                 this.translate.instant("GLOBAL.info_estado"),
                 this.translate.instant("GLOBAL.confirmarActualizar"),
@@ -567,7 +550,6 @@ export class DetallePracticaAcademicaComponent {
               );
             }
           } else {
-            this.loading = false;
             this.snackBar.open(
               this.translate.instant("GLOBAL.error_practicas_academicas"),
               "X",

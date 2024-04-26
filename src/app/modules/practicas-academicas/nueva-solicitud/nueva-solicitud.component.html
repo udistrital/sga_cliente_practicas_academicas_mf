@@ -1,6 +1,5 @@
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
 <div class="container mt-10">
-  <mat-card *ngIf="!loading">
+  <mat-card>
     <mat-card-header>
       <h1 class="m-auto text-lg font-bold">
         {{ "PRACTICAS_ACADEMICAS.titulo" | translate }}
@@ -9,7 +8,6 @@
 
     <mat-card-content>
       <ngx-solicitante-practica
-        (loading)="changeLoading($event)"
         (docentes)="loadDocentes($event)"
         [docentesSolicitud]="[]"
         [process]="true"

@@ -36,7 +36,6 @@ export class NuevaSolicitudComponent {
   espaciosAcademicos: any[] = [];
   tiposVehiculo: any[] = [];
   limpiar: boolean = true;
-  loading: boolean = false;
   llenarDocumentos: boolean = false;
   sub: any;
   idPractica: any;
@@ -67,7 +66,6 @@ export class NuevaSolicitudComponent {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.construirForm();
 
     this.loadData().then((aux) => {
@@ -167,7 +165,6 @@ export class NuevaSolicitudComponent {
         }
       });
     });
-    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -176,8 +173,6 @@ export class NuevaSolicitudComponent {
 
   cargarDocs(files: any) {
     return new Promise((resolve, reject) => {
-      this.loading = true;
-
       files.forEach((documento: any) => {
         this.nuxeo.getByUUID(documento.Enlace).subscribe((res) => {
           switch (documento.Nombre) {
@@ -248,8 +243,6 @@ export class NuevaSolicitudComponent {
           }
         });
       });
-      this.loading = false;
-
       resolve(true);
     });
   }
@@ -397,7 +390,6 @@ export class NuevaSolicitudComponent {
         }
 
         if (event.nombre === "SOPORTES_DOCUMENTALES") {
-          this.loading = true;
           let files: Array<any> = [];
           this.InfoDocumentos = event.data.documental;
           for (const element of Object.values(
@@ -405,7 +397,6 @@ export class NuevaSolicitudComponent {
           )) {
             if (element.file instanceof File) {
               // Verificación explícita del tipo de archivo
-              this.loading = true;
               try {
                 const fileBase64 = await this.nuxeo.fileToBase64(element.file);
                 const file = {
@@ -428,7 +419,6 @@ export class NuevaSolicitudComponent {
             }
           }
           this.NuevaSolicitud.Documentos = files;
-          this.loading = false;
 
           this.NuevaSolicitud.FechaHoraRegreso =
             momentTimezone
@@ -454,8 +444,7 @@ export class NuevaSolicitudComponent {
 
           apiCall.subscribe(
             (res: any) => {
-              this.loading = false;
-              if (res !== null && res.success !== false) {
+                if (res !== null && res.success !== false) {
                 const r = <any>res.data[0];
                 this.practicasService.clearCache();
                 const solicitudId = r.Solicitud.Id;
@@ -494,8 +483,7 @@ export class NuevaSolicitudComponent {
               }
             },
             (error: HttpErrorResponse) => {
-              this.loading = false;
-              Swal.fire({
+                Swal.fire({
                 title: `Error ${error.status}`,
                 text: this.translate.instant("ERROR." + error.status),
                 icon: "error",
@@ -514,7 +502,6 @@ export class NuevaSolicitudComponent {
         }
       }
     } catch (error) {
-      this.loading = false;
       this.snackBar.open(
         this.translate.instant("ERROR." + error),
         this.translate.instant("GLOBAL.aceptar"),
@@ -549,7 +536,6 @@ export class NuevaSolicitudComponent {
   }
 
   getSeleccion(event: any) {
-    this.changeLoading(true);
     if (event.nombre === "Proyecto") {
       this.sgaPracticaAcademicaMidService
         .get("practicas-academicas/espacios-academicos/" + this.info_persona_id)
@@ -612,12 +598,6 @@ export class NuevaSolicitudComponent {
       //   campoSalida.alerta = '';
       // }
     }
-
-    this.changeLoading(false);
-  }
-
-  changeLoading(event: any) {
-    this.loading = event;
   }
 
   loadDocentes(event: any) {
