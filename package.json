@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:single-spa:sga-cliente-practicas-academicas-mf": "ng build sga-cliente-practicas-academicas-mf --configuration production",
-    "serve:single-spa:sga-cliente-practicas-academicas-mf": "ng s --project sga-cliente-practicas-academicas-mf --disable-host-check --port 4210 --live-reload false"
+    "serve:single-spa:sga-cliente-practicas-academicas-mf": "ng s --project sga-cliente-practicas-academicas-mf --disable-host-check --port 4210 --live-reload false",
+    "build:prod": "ng build --progress --configuration=production",
+    "build:test": "ng build --progress --configuration=development"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "rxjs": "~7.8.0",
     "single-spa": ">=4.0.0",
     "single-spa-angular": "^9.0.1",
+    "spinner-util": "^0.0.2",
     "sweetalert2": "^11.10.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

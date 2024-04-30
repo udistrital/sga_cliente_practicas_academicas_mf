@@ -44,9 +44,6 @@ export class SolicitantePracticaComponent {
   nuevaSolicitud: boolean = false;
   docentesSolicitud: any;
 
-  @Output("loading")
-  loading: EventEmitter<any> = new EventEmitter();
-
   @Output("docentes")
   docentes: EventEmitter<any> = new EventEmitter();
 
@@ -192,7 +189,6 @@ export class SolicitantePracticaComponent {
                 this.docentes.emit(this.DocentePractica);
               }
             }
-            this.loading.emit(false);
           },
           (error: HttpErrorResponse) => {
             Swal.fire({
@@ -247,7 +243,6 @@ export class SolicitantePracticaComponent {
       const regex = /^[0-9]+(?:-[0-9]+)*$/;
       event.data.docDocente = event.data.docDocente.trim();
       if (regex.test(event.data.docDocente) === true) {
-        this.loading.emit(true);
         //CAMBIAR
         this.sgaPracticaAcademicaMidService
           .get(
@@ -317,7 +312,6 @@ export class SolicitantePracticaComponent {
               });
             }
           );
-        this.loading.emit(false);
       } else {
         this.docenteColaborador = undefined;
         this.docenteSolicitante.campos.forEach((campo: any) => {

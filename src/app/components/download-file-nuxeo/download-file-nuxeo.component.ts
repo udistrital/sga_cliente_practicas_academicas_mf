@@ -18,7 +18,6 @@ export class DownloadFileNuxeoComponent {
   private archivo: any = null;
   private _idDoc!: number;
   private urlBlobOriginal: string | null = null;
-  loading: boolean = true;
   informacionArchivo: any = null;
   esAbiertoMenu: boolean = false;
   error: boolean = false;
@@ -41,14 +40,12 @@ export class DownloadFileNuxeoComponent {
 
   cargarArchivo() {
     if (this.archivo) {
-      this.loading = true;
       this.error = false;
       
       this.nuxeoService
         .get([this.archivo])
         .pipe(
           catchError((err) => {
-            this.loading = false;
             this.error = true;
             return of(null);
           })
@@ -57,7 +54,6 @@ export class DownloadFileNuxeoComponent {
           respuesta => {
             if(respuesta.error){
               this.error = true;
-              this.loading = false;
               return
             }
             
@@ -68,14 +64,10 @@ export class DownloadFileNuxeoComponent {
                 this.sanitizer.bypassSecurityTrustResourceUrl(
                   this.informacionArchivo.url
                 );
-              this.loading = false
             }
-            
-            this.loading = false;
           },
           err => {
             this.error = true;
-            this.loading = false;
           }          
         );
     }
