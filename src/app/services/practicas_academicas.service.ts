@@ -31,7 +31,6 @@ export class PracticasAcademicasService {
     let res: any;
     if (!this.practicas) {
       if (filter) {
-        console.log("Filtro por id o fecha")
         if (filter.Id || filter.FechaRadicacion) {
           res = this.requestManager.get(endpoint).pipe(
             map((practica: any) => {
@@ -62,7 +61,6 @@ export class PracticasAcademicasService {
       } else if (stateFilter) {
         res = this.requestManager.get(endpoint).pipe(
           map((practica: any) => {
-            console.log(practica)
             this.practicasSubject.next(practica);
             this.practicas = practica;
             return practica.data.map((p: any) => {
@@ -82,7 +80,6 @@ export class PracticasAcademicasService {
           })
         );
       } else {
-        console.log("Sin filtro")
         res = this.requestManager.get(endpoint).pipe(
           map((practica: any) => {
             this.practicasSubject.next(practica);
@@ -103,7 +100,6 @@ export class PracticasAcademicasService {
         );
       }
     } else {
-      console.log("Hay cache")
       if (filter) {
         if (filter.Id || filter.FechaRadicacion) {
           res = this.practicas$.pipe(

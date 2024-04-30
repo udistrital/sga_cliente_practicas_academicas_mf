@@ -274,11 +274,8 @@ export class ListPracticasAcademicasComponent {
               };
               this.sortDataInicial();
             }, 50);
-            this.loading = false;
           },
           (error: HttpErrorResponse) => {
-            console.log("OCURRIO UN ERROR", error);
-            this.loading = false;
             Swal.fire({
               icon: "error",
               title: "404",

@@ -1,11 +1,9 @@
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
-
-<div class="container mt-10">
+<div>
   <mat-card>
     <mat-card-header>
-      <h1 class="m-auto text-lg font-bold">
+      <mat-card-title>
         {{ "PRACTICAS_ACADEMICAS.titulo" | translate }}
-      </h1>
+      </mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -33,26 +31,16 @@
         *ngIf="llenarDocumentos"
       >
       </ngx-dinamicform>
-      <div class="row col-12 labels-contenedor" *ngIf="['news', 'process'].includes(process)">
-        <div class="row col-6">
-          <div class="col-6">
-            <label>{{
-              "PRACTICAS_ACADEMICAS.fecha_radicacion" | translate
-            }}</label>
-          </div>
-          <div class="col-6">
-            <span class="form-control"> {{ fechaRadicado }} </span>
-          </div>
+      <div *ngIf="['news', 'process'].includes(process)">
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <label><b>{{
+            "PRACTICAS_ACADEMICAS.fecha_radicacion" | translate
+          }}:  </b></label>
+          <span class="form-control"> {{ fechaRadicado }} </span>
         </div>
-        <div class="row col-6">
-          <div class="col-6">
-            <label>{{
-              "PRACTICAS_ACADEMICAS.estado_actual" | translate
-            }}</label>
-          </div>
-          <div class="col-6">
-            <span class="form-control"> {{ estado }} </span>
-          </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <label>{{ "PRACTICAS_ACADEMICAS.estado_actual" | translate }}:  </label>
+          <span class="form-control"> {{ estado }} </span>
         </div>
       </div>
       <br />

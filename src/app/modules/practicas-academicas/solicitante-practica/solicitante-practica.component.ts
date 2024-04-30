@@ -303,7 +303,6 @@ export class SolicitantePracticaComponent {
               }
             },
             (error: HttpErrorResponse) => {
-              console.log(error)
               Swal.fire({
                 icon: "error",
                 title: error.status + "",

@@ -31,8 +31,8 @@ export const environment = {
   urlMf: "http://localhost:4210/",
   NUXEO_SERVICE: "",
   TERCEROS_SERVICE: '',
-  SGA_MID_SERVICE: "",
   DOCUMENTO_SERVICE: '',
+  SGA_PRACTICA_ACADEMICA_MID: '',
 };
 
 ```
