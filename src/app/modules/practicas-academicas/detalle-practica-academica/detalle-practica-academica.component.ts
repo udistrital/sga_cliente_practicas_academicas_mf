@@ -13,7 +13,8 @@ import {
 } from "../form-solicitud-practica";
 import * as moment from "moment";
 import { HttpErrorResponse } from "@angular/common/http";
-import Swal from "sweetalert2";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as momentTimezone from "moment-timezone";
 import { Location } from "@angular/common";
@@ -358,7 +359,7 @@ export class DetallePracticaAcademicaComponent {
       // dangerMode: true,
       showCancelButton: true,
     };
-    Swal.fire(opt).then((result) => {
+    Swal.fire(opt).then((result: any) => {
       if (result) {
       }
     });

@@ -14,7 +14,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import Swal from "sweetalert2";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2";
 import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_academica_mid.service";
 
 @Component({
@@ -302,7 +303,6 @@ export class SolicitantePracticaComponent {
               }
             },
             (error: HttpErrorResponse) => {
-              console.log(error)
               Swal.fire({
                 icon: "error",
                 title: error.status + "",

@@ -1,5 +1,3 @@
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
 .boton-primary {
   border: solid 1px #03678f;
   font-weight: 300;
@@ -26,6 +24,71 @@
   display: block !important;
 }
 
-.fieldset-contenedor {
-  overflow: overlay;
+
+// ESTILOS PARA EL COMPONENTE INPUT DEL FORMULARIO MINI
+
+/* Estilo general para el contenedor del archivo */
+.contenedor-archivo {
+  display: block;
 }
+
+/* Ocultar el contenedor si es necesario */
+.contenedor-archivo.oculto {
+  display: none;
+}
+
+/* Estilos para la fila y las columnas */
+.fila-archivo {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -5px;
+}
+
+.columna-archivo {
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+/* Estilo para la etiqueta del archivo */
+.etiqueta-archivo {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+input#file-upload-button {
+  color: red;
+  display: none;
+
+}
+
+/* Estilo para el input de archivo */
+.input-archivo {
+  width: 100%;
+}
+
+/* Estilo para la alerta de texto */
+.texto-alerta-archivo {
+  color: var(--warning-base);
+  font-size: 0.8em;
+}
+
+/* Estilos para la vista y descarga del documento */
+.vista-documento {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--others-accent);
+}
+
+.icono-descarga {
+  margin-right: 5px;
+}
+
+/* Ajustes responsivos para las columnas */
+@media screen and (max-width: 600px) {
+  .fila-archivo > .columna-archivo {
+      flex-basis: 100%;
+  }
+}
+

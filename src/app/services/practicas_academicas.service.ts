@@ -27,7 +27,7 @@ export class PracticasAcademicasService {
   ) {}
 
   getPracticas(endpoint: any, filter: any = null, stateFilter: any = null) {
-    this.requestManager.setPath("SGA_MID_SERVICE");
+    this.requestManager.setPath("SGA_PRACTICA_ACADEMICA_MID");
     let res: any;
     if (!this.practicas) {
       if (filter) {
@@ -36,7 +36,7 @@ export class PracticasAcademicasService {
             map((practica: any) => {
               this.practicasSubject.next(practica);
               this.practicas = practica;
-              return practica.Data.map((p: any) => {
+              return practica.data.map((p: any) => {
                 return {
                   ...p,
                   ...{
@@ -63,7 +63,7 @@ export class PracticasAcademicasService {
           map((practica: any) => {
             this.practicasSubject.next(practica);
             this.practicas = practica;
-            return practica.Data.map((p: any) => {
+            return practica.data.map((p: any) => {
               return {
                 ...p,
                 ...{
@@ -84,7 +84,7 @@ export class PracticasAcademicasService {
           map((practica: any) => {
             this.practicasSubject.next(practica);
             this.practicas = practica;
-            return practica.Data.map((p: any) => {
+            return practica.data.map((p: any) => {
               return {
                 ...p,
                 ...{
@@ -104,7 +104,7 @@ export class PracticasAcademicasService {
         if (filter.Id || filter.FechaRadicacion) {
           res = this.practicas$.pipe(
             map((practica: any) => {
-              return practica.Data.map((p: any) => {
+              return practica.data.map((p: any) => {
                 return {
                   ...p,
                   ...{
@@ -129,7 +129,7 @@ export class PracticasAcademicasService {
       } else if (stateFilter) {
         res = this.practicas$.pipe(
           map((practica: any) => {
-            return practica.Data.map((p: any) => {
+            return practica.data.map((p: any) => {
               return {
                 ...p,
                 ...{
@@ -148,7 +148,7 @@ export class PracticasAcademicasService {
       } else {
         res = this.practicas$.pipe(
           map((practica: any) => {
-            return practica.Data.map((p: any) => {
+            return practica.data.map((p: any) => {
               return {
                 ...p,
                 ...{

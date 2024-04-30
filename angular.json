@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/styles/sga-theme-angular-material.scss",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -73,7 +74,7 @@
               "deployUrl": "https://pruebassgapracticasacademicas.portaloas.udistrital.edu.co/"
             },
             "local": {
-              "deployUrl": "http://localhost:4209/"
+              "deployUrl": "http://localhost:4210/"
             }
           },
           "defaultConfiguration": "local"

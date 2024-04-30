@@ -173,14 +173,16 @@
     <!-- Botones de form con acción de botones -->
     <div align="center">
       <button
-      class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
+        mat-flat-button
+        color="primary"
         (click)="validForm()"
         [hidden]="!normalform.btn"
       >
         {{ normalform.btn }}
       </button>
       <button
-        class="btn btn-primary btn-tiny"
+        mat-flat-button
+        color="warn"
         (click)="clearForm()"
         [hidden]="!normalform.btnLimpiar"
       >
@@ -342,14 +344,16 @@
     <br />
     <div align="center">
       <button
-      class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
+        mat-flat-button
+        color="primary"
         (click)="validForm()"
         [hidden]="!normalform.btn"
       >
         {{ normalform.btn }}
       </button>
       <button
-        class="btn btn-primary btn-tiny"
+        mat-flat-button
+        color="warn"
         (click)="clearForm()"
         [hidden]="!normalform.btnLimpiar"
       >
@@ -518,7 +522,7 @@
     <!-- Botones de form con accaión de botones -->
     <div align="center">
       <button
-      class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
+        class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
         (click)="validForm()"
         [hidden]="!normalform.btn"
       >
@@ -537,17 +541,19 @@
 
   <!-- Form  mini -->
   <form class="form-horizontal" *ngSwitchCase="'mini'">
-    <fieldset [ngClass]="{ fieldseter: !normalform.hidefield }" class="fieldset-contenedor">
-      <legend align="{{ normalform.alineacion_titulo }}">
-        <small>{{ normalform.titulo }}</small>
-      </legend>
-      <div class="row">
-        <div
-          *ngFor="let c of normalform.campos"
-          class="{{ c.claseGrid }}"
-          [ngSwitch]="c.etiqueta"
-        >
-          <div class="form-group">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{ normalform.titulo }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid2">
+          <div
+            *ngFor="let c of normalform.campos"
+            class="{{ c.claseGrid }}"
+            [ngSwitch]="c.etiqueta"
+          >
             <!-- input -->
             <mat-form-field
               *ngSwitchCase="'input'"
@@ -704,7 +710,7 @@
               floatLabel="always"
             >
               <mat-label
-                >{{ c.requerido ? "* " + c.label  : c.label }}:</mat-label
+                >{{ c.requerido ? "* " + c.label : c.label }}:</mat-label
               >
               <input
                 matInput
@@ -725,10 +731,6 @@
               <mat-datepicker #picker></mat-datepicker>
               <mat-hint class="text-danger">{{ c.alerta }}</mat-hint>
             </mat-form-field>
-
-
-
-            
 
             <!-- select -->
             <mat-form-field
@@ -901,34 +903,35 @@
             <!-- input-file -->
             <div
               *ngSwitchCase="'file'"
-              class="input-file {{ c.clase }} {{
-                c.ocultar ? 'no-mostrar' : ''
+              class="contenedor-archivo {{ c.clase }} {{
+                c.ocultar ? 'oculto' : ''
               }}"
             >
-              <div class="row">
-                <div class="col-9">
-                  <label for="{{ c.nombre }}" class="upload-file">
+              <div class="fila-archivo">
+                <div class="columna-archivo">
+                  <label for="{{ c.nombre }}" class="etiqueta-archivo">
                     {{ c.requerido ? "* " + c.label : c.label }}
                   </label>
                   <input
+                    color="accent"
                     #documento
                     [disabled]="c.deshabilitar"
                     type="file"
                     id="{{ c.nombre }}"
                     (change)="onChange($event, c)"
+                    class="input-archivo"
                   />
                   <br />
-                  <mat-hint class="text-danger">{{ c.alerta }}</mat-hint>
+                  <mat-hint class="texto-alerta-archivo">{{
+                    c.alerta
+                  }}</mat-hint>
                 </div>
-                <div class="col-3" *ngIf="c.urlTemp">
+                <div class="columna-archivo col-3" *ngIf="c.urlTemp">
                   <div
-                    class="ver-documento"
+                    class="vista-documento"
                     (click)="download(c.urlTemp, c.nombre, 500, 500)"
                   >
-                    <i
-                      class="fa fa-cloud-download fa-2x"
-                      aria-hidden="true"
-                    ></i>
+                    <mat-icon>visibility</mat-icon>
                     <span>{{ "GLOBAL.click_aqui" | translate }}</span>
                   </div>
                 </div>
@@ -956,7 +959,8 @@
                 <div class="col-9">
                   <button
                     type="button"
-                    mat-raised-button
+                    mat-flat-button
+                    color="accent"
                     (click)="documento.click()"
                     [disabled]="
                       (c.estadoDoc ? c.estadoDoc.aprobado : false) ||
@@ -1020,7 +1024,9 @@
                 >
                   <div
                     class="col-4"
-                    [ngClass]="{ 'text-danger': c.estadoDoc.aprobado == false }"
+                    [ngClass]="{
+                      'text-danger': c.estadoDoc.aprobado == false
+                    }"
                   >
                     {{ "GLOBAL.estado" | translate }}:
                     {{ c.estadoDoc.estadoObservacion }}
@@ -1035,16 +1041,22 @@
             </mat-form-field>
 
             <!--buttton -->
+
             <div
+              class="{{ c.claseGrid }}"
               *ngSwitchCase="'button'"
-              class="row {{ c.ocultar ? 'no-mostrar' : '' }}"
+              style="width: 100%"
             >
-              <div class="{{ c.claseGrid }}">
-                <button mat-button id="{{ c.id }}" (click)="auxButton(c)">
-                  <i class="{{ c.icono }}"></i>
-                  {{ c.label }}
-                </button>
-              </div>
+              <button
+                mat-flat-button
+                class="{{ c.claseBoton }}"
+                color="accent"
+                id="{{ c.id }}"
+                (click)="auxButton(c)"
+              >
+                <mat-icon> {{ c.icono }} </mat-icon>
+                {{ c.label }}
+              </button>
             </div>
 
             <!--label-->
@@ -1055,28 +1067,31 @@
             >
           </div>
         </div>
-      </div>
-      <ng-content></ng-content>
-      <div
-        class="buttons-container"
-        *ngIf="normalform.btnLimpiar || normalform.btn"
-      >
-        <button
-          class="btn btn-primary btn-sm"
-          (click)="clearForm()"
-          [hidden]="!normalform.btnLimpiar"
+        <ng-content></ng-content>
+        <div
+          class="buttons-container"
+          *ngIf="normalform.btnLimpiar || normalform.btn"
         >
-          {{ normalform.btnLimpiar }}
-        </button>
-        <button
-          class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
-          (click)="validForm()"
-          [hidden]="!normalform.btn"
-        >
-          {{ normalform.btn }}
-        </button>
-      </div>
-    </fieldset>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="clearForm()"
+            [hidden]="!normalform.btnLimpiar"
+          >
+            {{ normalform.btnLimpiar }}
+          </button>
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="validForm()"
+            [hidden]="!normalform.btn"
+          >
+            {{ normalform.btn }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
     <!-- Botones de form con acción de botones -->
   </form>
 
@@ -1657,13 +1672,19 @@
             </fieldset>
             <div class="button-stepper">
               <button
-                mat-stroked-button
+                mat-flat-button
+                color="primary"
                 matStepperPrevious
                 [disabled]="primero"
               >
                 {{ "GLOBAL.regresar" | translate }}
               </button>
-              <button mat-stroked-button matStepperNext [disabled]="ultimo">
+              <button
+                mat-flat-button
+                color="primary"
+                matStepperNext
+                [disabled]="ultimo"
+              >
                 {{ "GLOBAL.siguiente" | translate }}
               </button>
             </div>
@@ -1683,7 +1704,7 @@
           {{ normalform.btnLimpiar }}
         </button>
         <button
-        class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
+          class="bg-primary-900 rounded hover:cursor-pointer text-white px-4 py-2 hover:bg-primary"
           (click)="validForm()"
           [hidden]="!normalform.btn"
         >

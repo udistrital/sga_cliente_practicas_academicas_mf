@@ -1,187 +1,172 @@
-<div class="container mt-10">
-  <mat-card>
-    <mat-card-header>
-      <h1 class="m-auto text-lg font-bold">
-        {{ "PRACTICAS_ACADEMICAS.titulo" | translate }}
-      </h1>
-    </mat-card-header>
+<mat-card>
+  <mat-card-header>
+    <h1 class="m-auto text-lg font-bold">
+      {{ "PRACTICAS_ACADEMICAS.titulo" | translate }}
+    </h1>
+  </mat-card-header>
 
-    <mat-card-content>
-      <ngx-solicitante-practica
-        [docentesSolicitud]="InfoDocentes"
-        [process]="false"
-      >
-      </ngx-solicitante-practica>
-      <ngx-dinamicform
-        [normalform]="FormPracticasAcademicas"
-        [modeloData]="InfoPracticasAcademicas"
-      ></ngx-dinamicform>
+  <mat-card-content>
+    <ngx-solicitante-practica
+      [docentesSolicitud]="InfoDocentes"
+      [process]="false"
+    >
+    </ngx-solicitante-practica>
+    <br />
+    <ngx-dinamicform
+      [normalform]="FormPracticasAcademicas"
+      [modeloData]="InfoPracticasAcademicas"
+    ></ngx-dinamicform>
 
-      <div
-        class="border-2 border-primary-700 shadow-sm rounded-lg bg-primary-900 m-3"
-      >
-        <div
-          class="py-2 px-2 bg-gray-50 rounded-tl-md rounded-tr-md flex items-center"
-        >
-          <div class="flex-auto px-2 py-1 mr-1 rounded-md text-base">
-            {{ "PRACTICAS_ACADEMICAS.documentos" | translate }}
-          </div>
-        </div>
+    <br />
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{ "PRACTICAS_ACADEMICAS.documentos" | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
         <div class="px-2 py-4 bg-white flex flex-wrap">
           <ngx-download-file-nuxeo
             *ngFor="let file of files"
             [file]="file"
           ></ngx-download-file-nuxeo>
         </div>
+      </mat-card-content>
+    </mat-card>
+
+    <br />
+
+    <div class="row col-12" *ngIf="['news', 'process'].includes(process)">
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        <label><b>{{ "PRACTICAS_ACADEMICAS.fecha_radicacion" | translate }}:  </b></label>
+
+        <span class="form-control"> {{ fechaRadicado }} </span>
       </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        <label><b>{{ "PRACTICAS_ACADEMICAS.estado_actual" | translate }}:  </b></label>
 
-      <div class="row col-12 labels-contenedor" *ngIf="['news', 'process'].includes(process)">
-        <div class="row col-6">
-          <div class="col-6">
-            <label>{{
-              "PRACTICAS_ACADEMICAS.fecha_radicacion" | translate
-            }}</label>
-          </div>
-          <div class="col-6">
-            <span class="form-control"> {{ fechaRadicado }} </span>
-          </div>
-        </div>
-        <div class="row col-6">
-          <div class="col-6">
-            <label>{{
-              "PRACTICAS_ACADEMICAS.estado_actual" | translate
-            }}</label>
-          </div>
-          <div class="col-6">
-            <span class="form-control"> {{ estado }} </span>
-          </div>
-        </div>
+        <span class="form-control"> {{ estado }} </span>
       </div>
-      <br />
-      <mat-accordion *ngIf="['news', 'process'].includes(process)">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header
-            style="background: gainsboro; border: 1px solid var(--primary)"
-          >
-            <mat-panel-title>
-              {{ "PRACTICAS_ACADEMICAS.estados" | translate }}
-            </mat-panel-title>
-            <mat-panel-description>
-              {{ "PRACTICAS_ACADEMICAS.ver_listado_estados" | translate }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <br />
+    </div>
+    <br />
+    <mat-accordion *ngIf="['news', 'process'].includes(process)">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "PRACTICAS_ACADEMICAS.estados" | translate }}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ "PRACTICAS_ACADEMICAS.ver_listado_estados" | translate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <br />
 
-          <div class="tabla-contenedor">
-            <mat-table
-            [dataSource]="estadosSolicitudesDataSource"
-            class="mat-elevation-z8"
-          >
-            <!-- Estado Column -->
-            <ng-container matColumnDef="EstadoTipoSolicitudId">
-              <mat-header-cell *matHeaderCellDef>{{
-                "PRACTICAS_ACADEMICAS.estado_solicitud" | translate
-              }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.EstadoTipoSolicitudId.EstadoId.Nombre }}
-              </mat-cell>
-            </ng-container>
+        <mat-card>
+          <mat-card-content>
+            <div class="mat-elevation-z8">
+              <mat-table [dataSource]="estadosSolicitudesDataSource">
+                <!-- Estado Column -->
+                <ng-container matColumnDef="EstadoTipoSolicitudId">
+                  <mat-header-cell *matHeaderCellDef>{{
+                    "PRACTICAS_ACADEMICAS.estado_solicitud" | translate
+                  }}</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    {{ element.EstadoTipoSolicitudId.EstadoId.Nombre }}
+                  </mat-cell>
+                </ng-container>
 
-            <!-- Fecha Column -->
-            <ng-container matColumnDef="FechaCreacion">
-              <mat-header-cell *matHeaderCellDef>{{
-                "PRACTICAS_ACADEMICAS.fecha" | translate
-              }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.FechaCreacion | date : "dd/MM/yyyy" }}
-              </mat-cell>
-            </ng-container>
+                <!-- Fecha Column -->
+                <ng-container matColumnDef="FechaCreacion">
+                  <mat-header-cell *matHeaderCellDef>{{
+                    "PRACTICAS_ACADEMICAS.fecha" | translate
+                  }}</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    {{ element.FechaCreacion | date : "dd/MM/yyyy" }}
+                  </mat-cell>
+                </ng-container>
 
-            <!-- Comentario Column -->
-            <ng-container matColumnDef="Comentario">
-              <mat-header-cell *matHeaderCellDef>{{
-                "PRACTICAS_ACADEMICAS.comentario" | translate
-              }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.Comentario }}
-              </mat-cell>
-            </ng-container>
+                <!-- Comentario Column -->
+                <ng-container matColumnDef="Comentario">
+                  <mat-header-cell *matHeaderCellDef>{{
+                    "PRACTICAS_ACADEMICAS.comentario" | translate
+                  }}</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    {{ element.Comentario }}
+                  </mat-cell>
+                </ng-container>
 
-            <!-- Acciones Column -->
-            <ng-container matColumnDef="Acciones">
-              <mat-header-cell *matHeaderCellDef>{{
-                "GLOBAL.acciones" | translate
-              }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <button
-                  mat-icon-button
-                  color="primary"
-                  (click)="verEstado(element)"
-                >
-                  <mat-icon>visibility</mat-icon>
-                </button>
-              </mat-cell>
-            </ng-container>
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="Acciones">
+                  <mat-header-cell *matHeaderCellDef>{{
+                    "GLOBAL.acciones" | translate
+                  }}</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="verEstado(element)"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
 
-            <mat-header-row
-              *matHeaderRowDef="displayedColumns"
-            ></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-          </mat-table>
-          <mat-paginator
-            [pageSizeOptions]="[5, 10, 20]"
-            showFirstLastButtons
-          ></mat-paginator>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+                <mat-header-row
+                  *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></mat-row>
+              </mat-table>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
 
-      <div
-        class="send-invitation flex justify-center"
-        *ngIf="['invitation'].includes(process)"
-      >
-        <button
-          class="bg-primary-900 text-white font-medium text-sm py-2.5 px-6 rounded flex items-center gap-2 hover:bg-primary-700 mb-1"
-          (click)="enviarInvitacion()"
-        >
-          {{ "PRACTICAS_ACADEMICAS.enviar_invitacion" | translate }}
-        </button>
-      </div>
-
-      <div *ngIf="estado != 'Ejecutada'">
-        <ngx-dinamicform
-          *ngIsGranted="[
-            'COORDINADOR',
-            'COORDINADOR_PREGADO',
-            'COORDINADOR_POSGRADO'
-          ]"
-          [normalform]="formRespuestaSolicitud"
-          [modeloData]="InfoPersona"
-          (result)="enviarSolicitud($event)"
-        >
-        </ngx-dinamicform>
-      </div>
-      <div
-        *ngIf="estado == 'Acta aprobada' && !['invitation'].includes(process)"
-      >
-        <ngx-dinamicform
-          *ngIsGranted="['DOCENTE']"
-          [normalform]="formDocumentosAdicionalesLegalizacion"
-          [modeloData]="Legalizacion"
-          (result)="enviarLegalizacion($event)"
-        >
-        </ngx-dinamicform>
-      </div>
-
-    </mat-card-content>
-    <mat-card-actions class="flex justify-center">
+    <div
+      class="send-invitation flex justify-center"
+      *ngIf="['invitation'].includes(process)"
+    >
       <button
-        class="bg-primary-900 p-2 rounded text-white hover:bg-primary"
-        type="button"
-        (click)="goback()"
+        class="bg-primary-900 text-white font-medium text-sm py-2.5 px-6 rounded flex items-center gap-2 hover:bg-primary-700 mb-1"
+        (click)="enviarInvitacion()"
       >
-        {{ "GLOBAL.regresar" | translate }}
+        {{ "PRACTICAS_ACADEMICAS.enviar_invitacion" | translate }}
       </button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+    </div>
+
+    <div *ngIf="estado != 'Ejecutada'">
+      <ngx-dinamicform
+        *ngIsGranted="[
+          'COORDINADOR',
+          'COORDINADOR_PREGADO',
+          'COORDINADOR_POSGRADO'
+        ]"
+        [normalform]="formRespuestaSolicitud"
+        [modeloData]="InfoPersona"
+        (result)="enviarSolicitud($event)"
+      >
+      </ngx-dinamicform>
+    </div>
+    <div *ngIf="estado == 'Acta aprobada' && !['invitation'].includes(process)">
+      <ngx-dinamicform
+        *ngIsGranted="['DOCENTE']"
+        [normalform]="formDocumentosAdicionalesLegalizacion"
+        [modeloData]="Legalizacion"
+        (result)="enviarLegalizacion($event)"
+      >
+      </ngx-dinamicform>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="flex justify-center">
+    <button mat-flat-button color="primary" type="button" (click)="goback()">
+      {{ "GLOBAL.regresar" | translate }}
+    </button>
+  </mat-card-actions>
+</mat-card>

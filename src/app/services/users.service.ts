@@ -250,7 +250,7 @@ export class UserService {
 
   public getPersonaId(): number {
     const id = decrypt(window.localStorage.getItem('persona_id'));
-    return parseInt(id!, 10);
+    return parseInt(id, 10);
   }
   /*
 

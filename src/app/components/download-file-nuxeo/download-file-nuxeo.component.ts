@@ -5,7 +5,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogPreviewFileComponent } from "../dialog-preview-file/dialog-preview-file.component";
 import { catchError } from "rxjs/operators";
-import Swal from "sweetalert2";
 import { of } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
 
