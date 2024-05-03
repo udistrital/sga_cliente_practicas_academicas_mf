@@ -167,9 +167,9 @@ export class SolicitantePracticaComponent {
         )
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
-              if (res.status === 200 && res["data"] !== null) {
-                let docente = res.data;
+            if (res !== null && res.Success !== false) {
+              if (res.Status === 200 && res["data"] !== null) {
+                let docente = res.Data;
                 if (docente["Correo"] === undefined) {
                   if (docente["CorreoInstitucional"] !== undefined) {
                     docente["Correo"] = docente["CorreoInstitucional"];
@@ -251,8 +251,8 @@ export class SolicitantePracticaComponent {
           )
           .subscribe(
             (res) => {
-              if (res !== null && res.success !== false) {
-                if (res.status === 200 && res["data"] !== null) {
+              if (res !== null && res.Success !== false) {
+                if (res.Status === 200 && res["data"] !== null) {
                   if (res["data"]["Correo"] === undefined) {
                     if (res["data"]["CorreoInstitucional"] !== undefined) {
                       res["data"]["Correo"] =

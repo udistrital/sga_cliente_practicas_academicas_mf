@@ -79,9 +79,9 @@ export class NuevaSolicitudComponent {
             this.sgaPracticaAcademicaMidService
               .get("practicas-academicas/" + id)
               .subscribe(async (practica) => {
-                if (practica !== null && practica.success !== false) {
+                if (practica !== null && practica.Success !== false) {
                   const r = <any>practica;
-                  if (r.status === 200 && practica["data"] !== null) {
+                  if (r.Status === 200 && practica["data"] !== null) {
                     this.InfoPracticasAcademicas = practica["data"];
                     this.InfoPracticasAcademicas.FechaHoraRegreso =
                       this.InfoPracticasAcademicas.FechaHoraRegreso.slice(
@@ -282,9 +282,9 @@ export class NuevaSolicitudComponent {
         .get("practicas-academicas/parametros/")
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
+            if (res !== null && res.Success !== false) {
               const r = <any>res;
-              if (r.status === 200 && res["data"] !== null) {
+              if (r.Status === 200 && res["data"] !== null) {
                 this.periodos = res["data"]["periodos"];
                 this.proyectos = res["data"]["proyectos"];
                 this.tiposVehiculo = res["data"]["vehiculos"];
@@ -445,8 +445,8 @@ export class NuevaSolicitudComponent {
 
           apiCall.subscribe(
             (res: any) => {
-                if (res !== null && res.success !== false) {
-                const r = <any>res.data[0];
+                if (res !== null && res.Success !== false) {
+                const r = <any>res.Data[0];
                 this.practicasService.clearCache();
                 const solicitudId = r.Solicitud.Id;
                 Swal.fire({
@@ -542,9 +542,9 @@ export class NuevaSolicitudComponent {
         .get("practicas-academicas/espacios-academicos/" + this.info_persona_id)
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
-              const r = <any>res.data;
-              if (res.status === 200 && res["data"] !== null) {
+            if (res !== null && res.Success !== false) {
+              const r = <any>res.Data;
+              if (res.Status === 200 && res["data"] !== null) {
                 this.espaciosAcademicos = res["data"];
 
                 this.FormPracticasAcademicas.campos[

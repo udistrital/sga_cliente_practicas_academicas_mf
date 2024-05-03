@@ -95,8 +95,8 @@ export class DetallePracticaAcademicaComponent {
           .get("practicas-academicas/" + id)
           .subscribe((practica) => {
             const r = <any>practica;
-            if (practica !== null && r.success !== false) {
-              if (r.status === 200 && practica["data"] !== null) {
+            if (practica !== null && r.Success !== false) {
+              if (r.Status === 200 && practica["data"] !== null) {
                 this.InfoPracticasAcademicas = practica["data"];
                 this.InfoPracticasAcademicas.FechaHoraRegreso =
                   this.InfoPracticasAcademicas.FechaHoraRegreso.slice(0, -4);
@@ -156,8 +156,8 @@ export class DetallePracticaAcademicaComponent {
         .subscribe(
           (res) => {
             const r = <any>res;
-            if (res !== null && r.success !== false) {
-              if (r.status === 200 && res["data"] !== null) {
+            if (res !== null && r.Success !== false) {
+              if (r.Status === 200 && res["data"] !== null) {
                 this.periodos = res["data"]["periodos"];
                 this.proyectos = res["data"]["proyectos"];
                 this.tiposVehiculo = res["data"]["vehiculos"];
@@ -373,9 +373,9 @@ export class DetallePracticaAcademicaComponent {
       )
       .subscribe(
         (res: any) => {
-          if (res !== null && res.success !== false) {
-            const r = <any>res.data;
-            if (res.status === 200 && r["Data"] !== null) {
+          if (res !== null && res.Success !== false) {
+            const r = <any>res.Data;
+            if (res.Status === 200 && r["Data"] !== null) {
               this.snackBar.open(
                 this.translate.instant(
                   "PRACTICAS_ACADEMICAS.invitaciones_enviadas"
@@ -429,9 +429,9 @@ export class DetallePracticaAcademicaComponent {
           .put("practicas-academicas/" + this.idPractica, this.InfoRespuesta)
           .subscribe(
             (res: any) => {
-              if (res !== null && res.success !== false) {
-                const r = <any>res.data;
-                if (res.status === 200 && r["Data"] !== null) {
+              if (res !== null && res.Success !== false) {
+                const r = <any>res.Data;
+                if (res.Status === 200 && r["Data"] !== null) {
                   this.ngOnInit();
 
                   this.practicasService.clearCache();
@@ -531,9 +531,9 @@ export class DetallePracticaAcademicaComponent {
       .put("practicas-academicas", this.InfoPracticasAcademicas)
       .subscribe(
         (res: any) => {
-          if (res !== null && res.success !== false) {
-            const r = <any>res.data;
-            if (res.status === 200 && r["Data"] !== null) {
+          if (res !== null && res.Success !== false) {
+            const r = <any>res.Data;
+            if (res.Status === 200 && r["Data"] !== null) {
               this.ngOnInit();
               this.FormPracticasAcademicas.campos.forEach((campo: any) => {
                 campo.deshabilitar = true;
