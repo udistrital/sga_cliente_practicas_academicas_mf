@@ -79,10 +79,10 @@ export class NuevaSolicitudComponent {
             this.sgaPracticaAcademicaMidService
               .get("practicas-academicas/" + id)
               .subscribe(async (practica) => {
-                if (practica !== null && practica.success !== false) {
+                if (practica !== null && practica.Success !== false) {
                   const r = <any>practica;
-                  if (r.status === 200 && practica["data"] !== null) {
-                    this.InfoPracticasAcademicas = practica["data"];
+                  if (r.Status === 200 && practica["Data"] !== null) {
+                    this.InfoPracticasAcademicas = practica["Data"];
                     this.InfoPracticasAcademicas.FechaHoraRegreso =
                       this.InfoPracticasAcademicas.FechaHoraRegreso.slice(
                         0,
@@ -282,12 +282,12 @@ export class NuevaSolicitudComponent {
         .get("practicas-academicas/parametros/")
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
+            if (res !== null && res.Success !== false) {
               const r = <any>res;
-              if (r.status === 200 && res["data"] !== null) {
-                this.periodos = res["data"]["periodos"];
-                this.proyectos = res["data"]["proyectos"];
-                this.tiposVehiculo = res["data"]["vehiculos"];
+              if (r.Status === 200 && res["Data"] !== null) {
+                this.periodos = res["Data"]["periodos"];
+                this.proyectos = res["Data"]["proyectos"];
+                this.tiposVehiculo = res["Data"]["vehiculos"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("Periodo")
@@ -445,8 +445,8 @@ export class NuevaSolicitudComponent {
 
           apiCall.subscribe(
             (res: any) => {
-                if (res !== null && res.success !== false) {
-                const r = <any>res.data[0];
+                if (res !== null && res.Success !== false) {
+                const r = <any>res.Data[0];
                 this.practicasService.clearCache();
                 const solicitudId = r.Solicitud.Id;
                 Swal.fire({
@@ -542,10 +542,10 @@ export class NuevaSolicitudComponent {
         .get("practicas-academicas/espacios-academicos/" + this.info_persona_id)
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
-              const r = <any>res.data;
-              if (res.status === 200 && res["data"] !== null) {
-                this.espaciosAcademicos = res["data"];
+            if (res !== null && res.Success !== false) {
+              const r = <any>res.Data;
+              if (res.Status === 200 && res["Data"] !== null) {
+                this.espaciosAcademicos = res["Data"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("EspacioAcademico")

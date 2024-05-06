@@ -167,9 +167,9 @@ export class SolicitantePracticaComponent {
         )
         .subscribe(
           (res) => {
-            if (res !== null && res.success !== false) {
-              if (res.status === 200 && res["data"] !== null) {
-                let docente = res.data;
+            if (res !== null && res.Success !== false) {
+              if (res.Status === 200 && res["Data"] !== null) {
+                let docente = res.Data;
                 if (docente["Correo"] === undefined) {
                   if (docente["CorreoInstitucional"] !== undefined) {
                     docente["Correo"] = docente["CorreoInstitucional"];
@@ -251,24 +251,24 @@ export class SolicitantePracticaComponent {
           )
           .subscribe(
             (res) => {
-              if (res !== null && res.success !== false) {
-                if (res.status === 200 && res["data"] !== null) {
-                  if (res["data"]["Correo"] === undefined) {
-                    if (res["data"]["CorreoInstitucional"] !== undefined) {
-                      res["data"]["Correo"] =
-                        res["data"]["CorreoInstitucional"];
-                    } else if (res["data"]["CorreoPersonal"] !== undefined) {
-                      res["data"]["Correo"] = res["data"]["CorreoPersonal"];
+              if (res !== null && res.Success !== false) {
+                if (res.Status === 200 && res["Data"] !== null) {
+                  if (res["Data"]["Correo"] === undefined) {
+                    if (res["Data"]["CorreoInstitucional"] !== undefined) {
+                      res["Data"]["Correo"] =
+                        res["Data"]["CorreoInstitucional"];
+                    } else if (res["Data"]["CorreoPersonal"] !== undefined) {
+                      res["Data"]["Correo"] = res["data"]["CorreoPersonal"];
                     }
                   }
 
-                  if (res["data"]["Telefono"] === undefined) {
-                    if (res["data"]["Celular"] !== undefined) {
-                      res["data"]["Telefono"] = res["data"]["Celular"];
+                  if (res["Data"]["Telefono"] === undefined) {
+                    if (res["Data"]["Celular"] !== undefined) {
+                      res["Data"]["Telefono"] = res["Data"]["Celular"];
                     }
                   }
 
-                  this.docenteColaborador = res["data"];
+                  this.docenteColaborador = res["Data"];
                   this.docenteColaborador.Vinculacion =
                     this.docenteColaborador.TipoVinculacionId.Nombre;
                   this.snackBar.open(
