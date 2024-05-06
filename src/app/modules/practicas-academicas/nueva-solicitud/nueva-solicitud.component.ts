@@ -81,8 +81,8 @@ export class NuevaSolicitudComponent {
               .subscribe(async (practica) => {
                 if (practica !== null && practica.Success !== false) {
                   const r = <any>practica;
-                  if (r.Status === 200 && practica["data"] !== null) {
-                    this.InfoPracticasAcademicas = practica["data"];
+                  if (r.Status === 200 && practica["Data"] !== null) {
+                    this.InfoPracticasAcademicas = practica["Data"];
                     this.InfoPracticasAcademicas.FechaHoraRegreso =
                       this.InfoPracticasAcademicas.FechaHoraRegreso.slice(
                         0,
@@ -284,10 +284,10 @@ export class NuevaSolicitudComponent {
           (res) => {
             if (res !== null && res.Success !== false) {
               const r = <any>res;
-              if (r.Status === 200 && res["data"] !== null) {
-                this.periodos = res["data"]["periodos"];
-                this.proyectos = res["data"]["proyectos"];
-                this.tiposVehiculo = res["data"]["vehiculos"];
+              if (r.Status === 200 && res["Data"] !== null) {
+                this.periodos = res["Data"]["periodos"];
+                this.proyectos = res["Data"]["proyectos"];
+                this.tiposVehiculo = res["Data"]["vehiculos"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("Periodo")
@@ -544,8 +544,8 @@ export class NuevaSolicitudComponent {
           (res) => {
             if (res !== null && res.Success !== false) {
               const r = <any>res.Data;
-              if (res.Status === 200 && res["data"] !== null) {
-                this.espaciosAcademicos = res["data"];
+              if (res.Status === 200 && res["Data"] !== null) {
+                this.espaciosAcademicos = res["Data"];
 
                 this.FormPracticasAcademicas.campos[
                   this.getIndexForm("EspacioAcademico")

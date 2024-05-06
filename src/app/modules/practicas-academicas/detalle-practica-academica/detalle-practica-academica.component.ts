@@ -96,8 +96,8 @@ export class DetallePracticaAcademicaComponent {
           .subscribe((practica) => {
             const r = <any>practica;
             if (practica !== null && r.Success !== false) {
-              if (r.Status === 200 && practica["data"] !== null) {
-                this.InfoPracticasAcademicas = practica["data"];
+              if (r.Status === 200 && practica["Data"] !== null) {
+                this.InfoPracticasAcademicas = practica["Data"];
                 this.InfoPracticasAcademicas.FechaHoraRegreso =
                   this.InfoPracticasAcademicas.FechaHoraRegreso.slice(0, -4);
                 this.InfoPracticasAcademicas.FechaHoraSalida =
@@ -119,7 +119,7 @@ export class DetallePracticaAcademicaComponent {
                 );
                 this.InfoDocentes = aux;
                 this.estadosSolicitudesDataSource.data =
-                  practica["data"].Estados;
+                  practica["Data"].Estados;
                 this.estadosSolicitudesDataSource.paginator = this.paginator;
 
                 this.inicializiarDatos();
@@ -157,10 +157,10 @@ export class DetallePracticaAcademicaComponent {
           (res) => {
             const r = <any>res;
             if (res !== null && r.Success !== false) {
-              if (r.Status === 200 && res["data"] !== null) {
-                this.periodos = res["data"]["periodos"];
-                this.proyectos = res["data"]["proyectos"];
-                this.tiposVehiculo = res["data"]["vehiculos"];
+              if (r.Status === 200 && res["Data"] !== null) {
+                this.periodos = res["Data"]["periodos"];
+                this.proyectos = res["Data"]["proyectos"];
+                this.tiposVehiculo = res["Data"]["vehiculos"];
                 this.espaciosAcademicos = [
                   { Nombre: "123 - Calculo Integral", Id: 1 },
                 ];
