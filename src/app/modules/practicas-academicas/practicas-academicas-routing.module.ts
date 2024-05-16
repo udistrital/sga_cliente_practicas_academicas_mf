@@ -6,7 +6,7 @@ import { DetallePracticaAcademicaComponent } from "./detalle-practica-academica/
 
 const routes: Routes = [
   {
-    path: "nueva-solicitud",
+    path: "crear",
     component: NuevaSolicitudComponent,
   },
   {
