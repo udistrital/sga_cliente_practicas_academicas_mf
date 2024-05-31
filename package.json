@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "prepare": "husky",
     "build:single-spa:sga-cliente-practicas-academicas-mf": "ng build sga-cliente-practicas-academicas-mf --configuration production",
     "serve:single-spa:sga-cliente-practicas-academicas-mf": "ng s --project sga-cliente-practicas-academicas-mf --disable-host-check --port 4210 --live-reload false",
     "build:prod": "ng build --progress --configuration=production",
@@ -48,6 +49,7 @@
     "@types/jasmine": "~4.3.0",
     "@types/lodash": "^4.14.202",
     "autoprefixer": "^10.4.17",
+    "husky": "^9.0.11",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -55,6 +57,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.4.35",
+    "simple-git": "^3.24.0",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.1.3"
