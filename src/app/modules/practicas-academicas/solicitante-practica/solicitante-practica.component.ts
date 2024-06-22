@@ -38,7 +38,7 @@ export class SolicitantePracticaComponent {
   docenteSolicitante: any;
   DocentePractica: Array<Docente> = [];
   docenteColaborador: any;
-  info_persona_id: number = 0;
+  info_persona_id: any = 0;
   settings_authors: any;
   nuevoColaborador: boolean = false;
   nuevaSolicitud: boolean = false;

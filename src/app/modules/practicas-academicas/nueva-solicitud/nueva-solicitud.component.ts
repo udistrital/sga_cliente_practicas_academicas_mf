@@ -25,7 +25,7 @@ import { SgaPracticaAcademicaMidService } from "src/app/services/sga_practica_ac
   styleUrls: ["./nueva-solicitud.component.scss"],
 })
 export class NuevaSolicitudComponent {
-  info_persona_id: number = 0;
+  info_persona_id: any = 0;
   InfoPracticasAcademicas: any;
   InfoDocumentos: any;
   InfoDocentes: Array<Docente> = [];
