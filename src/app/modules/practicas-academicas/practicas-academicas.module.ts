@@ -43,6 +43,7 @@ import { NgIsGrantedDirective } from 'src/app/directives/ng-is-granted.directive
 
 //ANGULAR CDK
 import { OverlayModule } from "@angular/cdk/overlay";
+import { AuthGuard } from 'src/_guards/auth.guard';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { OverlayModule } from "@angular/cdk/overlay";
     
   ],
   providers: [
+    AuthGuard,
     NewNuxeoService,
   ],
 })
